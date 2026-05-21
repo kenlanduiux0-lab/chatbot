@@ -1,0 +1,51 @@
+# Python cache
+__pycache__/
+*.pyc
+chatbot/__pycache__/
+chatbot/*.pyc
+/chatbot/__pycache__/
+
+# Virtual environments
+venv/
+chatbot/.venv/
+.venv/
+/chatbot/.venv/
+.venv
+# Environment files
+.env
+chatbot/.env
+/chatbot/.env
+# VS Code settings
+.vscode/
+chatbot/.vscode/
+/chatbot/.vscode/
+.vscode
+# Logs
+*.log
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Build folders
+dist/
+build/
+
+# Node modules
+node_modules/
+
+# AI/cache/model folders
+models/
+cache/
+uploads/
+
+# Prompt folder
+chatbot/prompts
+/chatbot/prompts
+prompts/
+/prompts
+/prompts/
+
+# Specific sensitive files
+chatbot/prompts/API.txt
+/chatbot/prompts/API.txt
