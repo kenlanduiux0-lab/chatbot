@@ -182,8 +182,12 @@ def upload_pdf():
         if "file" not in request.files:
             return jsonify({"error": "No file provided"}), 400
         file = request.files["file"]
+<<<<<<< HEAD
         real_filename = file.filename
         tmp_path = os.path.join(BASE_DIR, real_filename)
+=======
+        tmp_path = os.path.join(BASE_DIR, "tmp_upload.pdf")
+>>>>>>> ade5f99e7819942961f5d7b8460046a1e97dbf3d
         file.save(tmp_path)
         meta = extract_pdf_to_text(tmp_path)
         os.remove(tmp_path)
@@ -198,10 +202,14 @@ def hot_reload_doc():
         if "file" not in request.files:
             return jsonify({"error": "No file provided"}), 400
         file = request.files["file"]
+<<<<<<< HEAD
         # REAL uploaded filename 
         real_filename = file.filename
         # Save using real filename temporarily
         tmp_path = os.path.join(BASE_DIR, real_filename)
+=======
+        tmp_path = os.path.join(BASE_DIR, "tmp_hotreload.pdf")
+>>>>>>> ade5f99e7819942961f5d7b8460046a1e97dbf3d
         file.save(tmp_path)
         meta = extract_pdf_to_text(tmp_path)
         os.remove(tmp_path)

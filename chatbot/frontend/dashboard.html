@@ -16,7 +16,11 @@
   --bdr2:   #3E3C36;
   --txt:    #E8E4DC;
   --txt2:   #8A8678;
+<<<<<<< HEAD
   --txt3:   #B7B1A3;
+=======
+  --txt3:   #4A4840;
+>>>>>>> ade5f99e7819942961f5d7b8460046a1e97dbf3d
   --grn:    #5AAF7A;
   --grn-d:  #3A6B50;
   --grn-l:  #162010;
@@ -242,7 +246,11 @@ body { font-family: 'Jost', sans-serif; background: var(--bg); color: var(--txt)
       </div>
       <div class="sb-footer">
         <div class="doc-lbl">Current doc</div>
+<<<<<<< HEAD
         <div class="doc-name"> {{ uploadedFileName || docMeta.filename || 'none' }}</div>
+=======
+        <div class="doc-name">{{ docMeta.filename || 'none' }}</div>
+>>>>>>> ade5f99e7819942961f5d7b8460046a1e97dbf3d
       </div>
     </div>
 
@@ -259,7 +267,11 @@ body { font-family: 'Jost', sans-serif; background: var(--bg); color: var(--txt)
           <div class="stat-card c-red"><div class="stat-lbl">Escalated</div><div class="stat-val">{{ analytics.escalated ?? '—' }}</div><div class="stat-sub">developer was alerted</div></div>
         </div>
         <div class="sec">
+<<<<<<< HEAD
           <div class="sec-hdr"><div class="sec-title">Top issue types</div></div>
+=======
+          <div class="sec-hdr"><div class="sec-title">Top issue types</div><div class="sec-meta">Amber = recurring (3+)</div></div>
+>>>>>>> ade5f99e7819942961f5d7b8460046a1e97dbf3d
           <div class="sec-body">
             <div class="bar-list" v-if="analytics.top_issue_types && analytics.top_issue_types.length">
               <div class="bar-row" :class="{rec: item.count >= 3}" v-for="item in analytics.top_issue_types" :key="item.type">
@@ -444,7 +456,10 @@ createApp({
     const analytics   = ref({});
     const escalations = ref([]);
     const docMeta     = ref({});
+<<<<<<< HEAD
     const uploadedFileName = ref('');
+=======
+>>>>>>> ade5f99e7819942961f5d7b8460046a1e97dbf3d
     const liveSessions= ref([]);
     const sessFilter  = ref('all');
     const openSessions= ref(new Set());
@@ -477,6 +492,7 @@ createApp({
     });
 
     const filteredSessions = computed(() => {
+<<<<<<< HEAD
     const f = sessFilter.value;
 
     // clone array before sorting
@@ -502,6 +518,16 @@ createApp({
       return timeB - timeA;
     });
 
+=======
+      const f = sessFilter.value;
+      const s = sessions.value;
+      if (f === 'resolved')   return s.filter(x => x.resolved);
+      if (f === 'unresolved') return s.filter(x => !x.resolved);
+      if (f === 'escalated')  return s.filter(x => x.escalated);
+      if (f === 'fallback')   return s.filter(x => x.fallback_used);
+      if (f === 'gaps')       return s.filter(x => x.doc_gaps && x.doc_gaps.length);
+      return s;
+>>>>>>> ade5f99e7819942961f5d7b8460046a1e97dbf3d
     });
 
     function toggleSession(i) {
@@ -552,7 +578,10 @@ createApp({
                     (isHot ? document.querySelectorAll('input[type=file]')[1] : document.querySelectorAll('input[type=file]')[0]);
       if (!input || !input.files[0]) return;
       const file = input.files[0];
+<<<<<<< HEAD
       uploadedFileName.value = file.name;
+=======
+>>>>>>> ade5f99e7819942961f5d7b8460046a1e97dbf3d
 
       if (isHot) { hotStatus.value = 'Uploading…'; hotErr.value = false; }
       else        { upStatus.value  = 'Uploading…'; upErr.value  = false; }

@@ -1,6 +1,12 @@
 {
+<<<<<<< HEAD
   "filename": "manual 2.pdf",
   "page_count": 3,
   "uploaded_at": "2026-05-21T15:07:16.278337",
+=======
+  "filename": "tmp_upload.pdf",
+  "page_count": 3,
+  "uploaded_at": "2026-05-18T17:32:05.185395",
+>>>>>>> ade5f99e7819942961f5d7b8460046a1e97dbf3d
   "char_count": 3785
 }
