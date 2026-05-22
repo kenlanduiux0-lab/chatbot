@@ -1,0 +1,40 @@
+{
+  "session_id": "6876882e",
+  "started_at": "2026-05-18T18:01:13.270653",
+  "ended_at": null,
+  "resolved": false,
+  "escalated": false,
+  "fallback_used": false,
+  "fallback_count": 0,
+  "issue_type": null,
+  "problem_summary": null,
+  "resolution_note": null,
+  "doc_gaps": [],
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Hello! I am here to help you fix a problem with your website.\n\nLet's start by understanding the issue.\n\nWhich part of the website is affected? For example: the login page, images, a contact form, the menu, or something else?",
+      "timestamp": "2026-05-18T18:01:13.299870"
+    },
+    {
+      "role": "user",
+      "content": "the menu",
+      "timestamp": "2026-05-18T18:01:30.500149"
+    },
+    {
+      "role": "assistant",
+      "content": "Thanks for letting me know. When did this problem first appear? For example, was it after a recent update, or did it just start today?",
+      "timestamp": "2026-05-18T18:01:42.577898"
+    },
+    {
+      "role": "user",
+      "content": "last tuesday",
+      "timestamp": "2026-05-18T18:02:15.471497"
+    },
+    {
+      "role": "assistant",
+      "content": "\nWhat exactly do you see on screen? Please describe any error message, blank area, or unexpected behavior with the menu.\n",
+      "timestamp": "2026-05-18T18:02:23.456015"
+    }
+  ]
+}
