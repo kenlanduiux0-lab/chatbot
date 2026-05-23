@@ -1,0 +1,20 @@
+{
+  "session_id": "9b102446",
+  "started_at": "2026-05-21T14:06:56.077882",
+  "ended_at": null,
+  "resolved": false,
+  "escalated": false,
+  "fallback_used": false,
+  "fallback_count": 0,
+  "issue_type": null,
+  "problem_summary": null,
+  "resolution_note": null,
+  "doc_gaps": [],
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Hello! I am here to help you fix a problem with your website.\n\nLet's start by understanding the issue.\n\nWhich part of the website is affected? For example: the login page, images, a contact form, the menu, or something else?",
+      "timestamp": "2026-05-21T14:06:56.128170"
+    }
+  ]
+}
