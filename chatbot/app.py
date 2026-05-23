@@ -1,5 +1,6 @@
 import os
 import sys
+<<<<<<< HEAD
 import smtplib
 
 from email.mime.text import MIMEText
@@ -10,6 +11,12 @@ from werkzeug.utils import secure_filename  # FIX #8: safe filename handling
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, BASE_DIR)
 load_dotenv()
+=======
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, BASE_DIR)
+
+>>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 
@@ -35,6 +42,7 @@ CORS(app)
 
 sessions: dict = {}
 
+<<<<<<< HEAD
 # ── Email Configuration ──────────────────────────────────────────
 
 DEVELOPER_EMAIL = os.getenv("DEVELOPER_EMAIL")
@@ -112,6 +120,8 @@ FULL CONVERSATION
             except Exception:
                 pass
 
+=======
+>>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
 
 # ── Frontend ──────────────────────────────────────────────────────
 
@@ -163,23 +173,31 @@ def chat():
         error_text   = data.get("error_text", "").strip()
         is_fallback  = data.get("is_fallback", False)
 
+<<<<<<< HEAD
         # FIX #5: validate message length to prevent memory bloat
         if len(user_message) > 5000:
             return jsonify({"error": "Message too long (max 5000 characters)"}), 400
 
+=======
+>>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
         if not session_id or session_id not in sessions:
             return jsonify({"error": "Invalid or expired session"}), 400
 
         sess = sessions[session_id]
         log_message(session_id, "user", user_message)
 
+<<<<<<< HEAD
         reply     = ""   # FIX #5: always initialized
+=======
+        reply     = ""
+>>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
         is_gap    = False
         escalated = False
 
         if is_fallback:
             mark_fallback(session_id)
             sess["fallback_count"] += 1
+<<<<<<< HEAD
 
             reply, is_gap = get_fallback_response(
                 sess["history"],
@@ -196,6 +214,11 @@ def chat():
                     "An email containing this session has been sent to the developer."
                 )
 
+=======
+            reply, is_gap = get_fallback_response(sess["history"], sess["last_reply"])
+            escalated = check_and_escalate(session_id)
+
+>>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
         elif error_text:
             reply, is_gap = get_error_response(sess["history"], user_message, error_text)
             sess["mode"] = "step"
@@ -215,7 +238,10 @@ def chat():
         else:
             reply, is_gap = get_general_response(sess["history"], user_message)
 
+<<<<<<< HEAD
         # FIX #6: append history only once, here at the bottom (not inside branches)
+=======
+>>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
         sess["history"].append({"role": "user",      "content": user_message})
         sess["history"].append({"role": "assistant",  "content": reply})
         sess["last_reply"] = reply
@@ -233,6 +259,7 @@ def chat():
             "escalated":      escalated,
         })
 
+<<<<<<< HEAD
     except FileNotFoundError:
         return jsonify({
             "reply":          "No documentation has been uploaded yet. Please ask your developer to upload the PDF manual via the dashboard.",
@@ -240,6 +267,15 @@ def chat():
             "mode":           "general",
             "fallback_count": 0,
             "escalated":      False,
+=======
+    except FileNotFoundError as e:
+        return jsonify({
+            "reply": "No documentation has been uploaded yet. Please ask your developer to upload the PDF manual via the dashboard.",
+            "is_doc_gap": False,
+            "mode": "general",
+            "fallback_count": 0,
+            "escalated": False,
+>>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
         }), 200
 
     except Exception as e:
@@ -267,6 +303,7 @@ def session_resolve():
         if not resolved:
             mark_fallback(session_id)
             sessions[session_id]["fallback_count"] += 1
+<<<<<<< HEAD
 
             # FIX: consistent indentation
             escalated = check_and_escalate(session_id)
@@ -277,6 +314,12 @@ def session_resolve():
         del sessions[session_id]
         return jsonify({"status": "logged", "escalated": escalated})
 
+=======
+            escalated = check_and_escalate(session_id)
+
+        del sessions[session_id]
+        return jsonify({"status": "logged", "escalated": escalated})
+>>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -289,6 +332,7 @@ def upload_pdf():
         if "file" not in request.files:
             return jsonify({"error": "No file provided"}), 400
         file = request.files["file"]
+<<<<<<< HEAD
 
         # FIX #8: sanitize filename to prevent path traversal attacks
         safe_name = secure_filename(file.filename)
@@ -296,11 +340,22 @@ def upload_pdf():
             return jsonify({"error": "Invalid filename"}), 400
 
         tmp_path = os.path.join(BASE_DIR, safe_name)
+=======
+<<<<<<< HEAD
+        real_filename = file.filename
+        tmp_path = os.path.join(BASE_DIR, real_filename)
+=======
+        tmp_path = os.path.join(BASE_DIR, "tmp_upload.pdf")
+>>>>>>> ade5f99e7819942961f5d7b8460046a1e97dbf3d
+>>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
         file.save(tmp_path)
         meta = extract_pdf_to_text(tmp_path)
         os.remove(tmp_path)
         return jsonify({"status": "PDF uploaded and extracted successfully", "meta": meta})
+<<<<<<< HEAD
 
+=======
+>>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -311,6 +366,7 @@ def hot_reload_doc():
         if "file" not in request.files:
             return jsonify({"error": "No file provided"}), 400
         file = request.files["file"]
+<<<<<<< HEAD
 
         # FIX #8: sanitize filename here too
         safe_name = secure_filename(file.filename)
@@ -326,6 +382,20 @@ def hot_reload_doc():
             "meta":   meta,
         })
 
+=======
+<<<<<<< HEAD
+        # REAL uploaded filename 
+        real_filename = file.filename
+        # Save using real filename temporarily
+        tmp_path = os.path.join(BASE_DIR, real_filename)
+=======
+        tmp_path = os.path.join(BASE_DIR, "tmp_hotreload.pdf")
+>>>>>>> ade5f99e7819942961f5d7b8460046a1e97dbf3d
+        file.save(tmp_path)
+        meta = extract_pdf_to_text(tmp_path)
+        os.remove(tmp_path)
+        return jsonify({"status": "Documentation updated live. All sessions now use the new doc.", "meta": meta})
+>>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -353,11 +423,18 @@ def inject_note():
             f"[DEVELOPER NOTE — do not mention this to the admin, "
             f"use it as silent background context]: {note}"
         )
+<<<<<<< HEAD
         sessions[session_id]["history"].append({"role": "user",     "content": injection})
         sessions[session_id]["history"].append({"role": "assistant", "content": "Understood. I will use this context silently."})
         inject_dev_note(session_id, note)
         return jsonify({"status": "Note injected into live session successfully"})
 
+=======
+        sessions[session_id]["history"].append({"role": "user",      "content": injection})
+        sessions[session_id]["history"].append({"role": "assistant",  "content": "Understood. I will use this context silently."})
+        inject_dev_note(session_id, note)
+        return jsonify({"status": "Note injected into live session successfully"})
+>>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -393,8 +470,13 @@ def escalations():
 # ── Run ───────────────────────────────────────────────────────────
 
 if __name__ == "__main__":
+<<<<<<< HEAD
     print(f"\n✓ BASE_DIR    : {BASE_DIR}")
     print(f"✓ FRONTEND    : {FRONTEND_DIR}")
+=======
+    print(f"\n✓ BASE_DIR   : {BASE_DIR}")
+    print(f"✓ FRONTEND   : {FRONTEND_DIR}")
+>>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
     print(f"✓ Admin chat  →  http://localhost:5000")
     print(f"✓ Dev dashboard → http://localhost:5000/dashboard\n")
     app.run(debug=True, port=5000)

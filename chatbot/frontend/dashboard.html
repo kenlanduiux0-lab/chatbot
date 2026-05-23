@@ -16,7 +16,15 @@
   --bdr2:   #3E3C36;
   --txt:    #E8E4DC;
   --txt2:   #8A8678;
+<<<<<<< HEAD
   --txt3:   #B7B1A3;
+=======
+<<<<<<< HEAD
+  --txt3:   #B7B1A3;
+=======
+  --txt3:   #4A4840;
+>>>>>>> ade5f99e7819942961f5d7b8460046a1e97dbf3d
+>>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
   --grn:    #5AAF7A;
   --grn-d:  #3A6B50;
   --grn-l:  #162010;
@@ -202,6 +210,7 @@ body { font-family: 'Jost', sans-serif; background: var(--bg); color: var(--txt)
 @keyframes tin { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:none} }
 
 .empty { font-size: 13px; color: var(--txt3); padding: 4px 0; }
+<<<<<<< HEAD
 .session-search-container {
   margin-top: 12px;
 }
@@ -222,6 +231,8 @@ body { font-family: 'Jost', sans-serif; background: var(--bg); color: var(--txt)
 .session-search-input:focus {
   border-color: var(--grn-d);
 }
+=======
+>>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
 </style>
 </head>
 <body>
@@ -262,7 +273,15 @@ body { font-family: 'Jost', sans-serif; background: var(--bg); color: var(--txt)
       </div>
       <div class="sb-footer">
         <div class="doc-lbl">Current doc</div>
+<<<<<<< HEAD
         <div class="doc-name"> {{ uploadedFileName || docMeta.filename || 'none' }}</div>
+=======
+<<<<<<< HEAD
+        <div class="doc-name"> {{ uploadedFileName || docMeta.filename || 'none' }}</div>
+=======
+        <div class="doc-name">{{ docMeta.filename || 'none' }}</div>
+>>>>>>> ade5f99e7819942961f5d7b8460046a1e97dbf3d
+>>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
       </div>
     </div>
 
@@ -279,7 +298,15 @@ body { font-family: 'Jost', sans-serif; background: var(--bg); color: var(--txt)
           <div class="stat-card c-red"><div class="stat-lbl">Escalated</div><div class="stat-val">{{ analytics.escalated ?? '—' }}</div><div class="stat-sub">developer was alerted</div></div>
         </div>
         <div class="sec">
+<<<<<<< HEAD
           <div class="sec-hdr"><div class="sec-title">Top issue types</div></div>
+=======
+<<<<<<< HEAD
+          <div class="sec-hdr"><div class="sec-title">Top issue types</div></div>
+=======
+          <div class="sec-hdr"><div class="sec-title">Top issue types</div><div class="sec-meta">Amber = recurring (3+)</div></div>
+>>>>>>> ade5f99e7819942961f5d7b8460046a1e97dbf3d
+>>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
           <div class="sec-body">
             <div class="bar-list" v-if="analytics.top_issue_types && analytics.top_issue_types.length">
               <div class="bar-row" :class="{rec: item.count >= 3}" v-for="item in analytics.top_issue_types" :key="item.type">
@@ -308,6 +335,7 @@ body { font-family: 'Jost', sans-serif; background: var(--bg); color: var(--txt)
 
       <!-- Escalations -->
       <div class="page" :class="{active: page==='escalations'}">
+<<<<<<< HEAD
         <div class="ph">
           <h1>Escalations</h1>
           <p>Sessions where the admin could not resolve the issue</p>
@@ -322,6 +350,11 @@ body { font-family: 'Jost', sans-serif; background: var(--bg); color: var(--txt)
         </div>
           <div v-if="filteredEscalations.length">
             <div class="esc-card" v-for="e in filteredEscalations" :key="e.session_id">
+=======
+        <div class="ph"><h1>Escalations</h1><p>Sessions where the admin could not resolve the issue</p></div>
+        <div v-if="escalations.length">
+          <div class="esc-card" v-for="e in escalations" :key="e.session_id">
+>>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
             <div class="esc-title">Session #{{ e.session_id }} — Escalated</div>
             <div class="esc-meta">{{ fmtDate(e.escalated_at) }} · {{ e.fallback_count }} failed attempt(s) · {{ e.message_count }} messages</div>
             <div class="esc-gaps" v-if="e.problem_summary">Problem: {{ e.problem_summary }}</div>
@@ -337,6 +370,7 @@ body { font-family: 'Jost', sans-serif; background: var(--bg); color: var(--txt)
 
       <!-- Sessions -->
       <div class="page" :class="{active: page==='sessions'}">
+<<<<<<< HEAD
         <div class="ph"><h1>All sessions</h1><p>Full conversation logs with metadata</p>
         <div class="session-search-container">
         <input
@@ -347,6 +381,9 @@ body { font-family: 'Jost', sans-serif; background: var(--bg); color: var(--txt)
             />
         </div>
         </div>
+=======
+        <div class="ph"><h1>All sessions</h1><p>Full conversation logs with metadata</p></div>
+>>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
         <div class="filters">
           <button class="flt" :class="{active: sessFilter==='all'}"        @click="sessFilter='all'">All</button>
           <button class="flt" :class="{active: sessFilter==='resolved'}"   @click="sessFilter='resolved'">Resolved</button>
@@ -484,13 +521,24 @@ createApp({
     const analytics   = ref({});
     const escalations = ref([]);
     const docMeta     = ref({});
+<<<<<<< HEAD
     const uploadedFileName = ref('');
+=======
+<<<<<<< HEAD
+    const uploadedFileName = ref('');
+=======
+>>>>>>> ade5f99e7819942961f5d7b8460046a1e97dbf3d
+>>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
     const liveSessions= ref([]);
     const sessFilter  = ref('all');
     const openSessions= ref(new Set());
     const noteInputs  = ref({});
+<<<<<<< HEAD
     const allSessionSearch = ref('');
     const escalationSearch = ref('');
+=======
+
+>>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
     const upStatus = ref(''); const upErr = ref(false);
     const hotStatus= ref(''); const hotErr= ref(false);
 
@@ -516,6 +564,7 @@ createApp({
       if (!t || !t.length) return 1;
       return Math.max(1, ...t.map(i => i.count));
     });
+<<<<<<< HEAD
     const filteredEscalations = computed(() => {
       let e = [...escalations.value];
 
@@ -571,6 +620,47 @@ createApp({
     return timeB - timeA;
   });
 });
+=======
+
+    const filteredSessions = computed(() => {
+<<<<<<< HEAD
+    const f = sessFilter.value;
+
+    // clone array before sorting
+    let s = [...sessions.value];
+
+    // apply filters
+    if (f === 'resolved') {
+      s = s.filter(x => x.resolved);
+    } else if (f === 'unresolved') {
+      s = s.filter(x => !x.resolved);
+    } else if (f === 'escalated') {
+      s = s.filter(x => x.escalated);
+    } else if (f === 'fallback') {
+      s = s.filter(x => x.fallback_used);
+    } else if (f === 'gaps') {
+      s = s.filter(x => x.doc_gaps && x.doc_gaps.length);
+    }
+
+    // newest sessions first
+    return s.sort((a, b) => {
+      const timeA = new Date(a.started_at || a.updated_at || 0).getTime();
+      const timeB = new Date(b.started_at || b.updated_at || 0).getTime();
+      return timeB - timeA;
+    });
+
+=======
+      const f = sessFilter.value;
+      const s = sessions.value;
+      if (f === 'resolved')   return s.filter(x => x.resolved);
+      if (f === 'unresolved') return s.filter(x => !x.resolved);
+      if (f === 'escalated')  return s.filter(x => x.escalated);
+      if (f === 'fallback')   return s.filter(x => x.fallback_used);
+      if (f === 'gaps')       return s.filter(x => x.doc_gaps && x.doc_gaps.length);
+      return s;
+>>>>>>> ade5f99e7819942961f5d7b8460046a1e97dbf3d
+    });
+>>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
 
     function toggleSession(i) {
       const s = new Set(openSessions.value);
@@ -620,7 +710,14 @@ createApp({
                     (isHot ? document.querySelectorAll('input[type=file]')[1] : document.querySelectorAll('input[type=file]')[0]);
       if (!input || !input.files[0]) return;
       const file = input.files[0];
+<<<<<<< HEAD
       uploadedFileName.value = file.name;
+=======
+<<<<<<< HEAD
+      uploadedFileName.value = file.name;
+=======
+>>>>>>> ade5f99e7819942961f5d7b8460046a1e97dbf3d
+>>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
 
       if (isHot) { hotStatus.value = 'Uploading…'; hotErr.value = false; }
       else        { upStatus.value  = 'Uploading…'; upErr.value  = false; }
@@ -657,10 +754,16 @@ createApp({
       liveSessions, sessFilter, openSessions, noteInputs,
       upStatus, upErr, hotStatus, hotErr,
       toastMsg, toastShow, toastType,
+<<<<<<< HEAD
       maxIssueCount,filteredSessions,filteredEscalations,
       allSessionSearch,escalationSearch,
       toggleSession, loadAll, loadLive, injectNote, uploadPDF,
       fmtDate,escH,
+=======
+      maxIssueCount, filteredSessions,
+      toggleSession, loadAll, loadLive, injectNote, uploadPDF,
+      fmtDate, escH,
+>>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
     };
   }
 }).mount('#app');
