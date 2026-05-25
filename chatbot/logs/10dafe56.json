@@ -1,0 +1,30 @@
+{
+  "session_id": "10dafe56",
+  "started_at": "2026-05-18T17:25:05.580609",
+  "ended_at": "2026-05-18T17:26:21.810419",
+  "resolved": true,
+  "escalated": false,
+  "fallback_used": true,
+  "fallback_count": 1,
+  "issue_type": "Content update problem",
+  "problem_summary": null,
+  "resolution_note": "good",
+  "doc_gaps": [],
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Hello! I am here to help you fix a problem with your website.\n\nLet's start by understanding the issue.\n\nWhich part of the website is affected? For example: the login page, images, a contact form, the menu, or something else?",
+      "timestamp": "2026-05-18T17:25:05.595648"
+    },
+    {
+      "role": "user",
+      "content": "login",
+      "timestamp": "2026-05-18T17:25:11.429048"
+    },
+    {
+      "role": "user",
+      "content": "Please try a different approach",
+      "timestamp": "2026-05-18T17:26:05.573556"
+    }
+  ]
+}

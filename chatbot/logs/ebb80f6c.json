@@ -1,0 +1,35 @@
+{
+  "session_id": "ebb80f6c",
+  "started_at": "2026-05-21T14:49:43.564162",
+  "ended_at": null,
+  "resolved": false,
+  "escalated": false,
+  "fallback_used": false,
+  "fallback_count": 0,
+  "issue_type": null,
+  "problem_summary": null,
+  "resolution_note": null,
+  "doc_gaps": [],
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Hello! I am here to help you fix a problem with your website.\n\nLet's start by understanding the issue.\n\nWhich part of the website is affected? For example: the login page, images, a contact form, the menu, or something else?",
+      "timestamp": "2026-05-21T14:49:43.578355"
+    },
+    {
+      "role": "user",
+      "content": "something else",
+      "timestamp": "2026-05-21T14:50:00.551461"
+    },
+    {
+      "role": "assistant",
+      "content": "So the issue is with a part of the website that's not one of the common areas I mentioned. That helps to narrow it down a bit.\n\nWhen did this problem first appear? Was it after an update, has it always been there, or did it just start today?",
+      "timestamp": "2026-05-21T14:50:05.351321"
+    },
+    {
+      "role": "dev_note",
+      "content": "The login outage is caused by yesterday's deployment rollback failure.",
+      "timestamp": "2026-05-21T15:23:51.290769"
+    }
+  ]
+}

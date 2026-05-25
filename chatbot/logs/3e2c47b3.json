@@ -1,0 +1,40 @@
+{
+  "session_id": "3e2c47b3",
+  "started_at": "2026-05-21T14:58:37.504675",
+  "ended_at": null,
+  "resolved": false,
+  "escalated": false,
+  "fallback_used": false,
+  "fallback_count": 0,
+  "issue_type": null,
+  "problem_summary": null,
+  "resolution_note": null,
+  "doc_gaps": [],
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Hello! I am here to help you fix a problem with your website.\n\nLet's start by understanding the issue.\n\nWhich part of the website is affected? For example: the login page, images, a contact form, the menu, or something else?",
+      "timestamp": "2026-05-21T14:58:37.525591"
+    },
+    {
+      "role": "user",
+      "content": "login page",
+      "timestamp": "2026-05-21T14:59:01.091336"
+    },
+    {
+      "role": "assistant",
+      "content": "So the issue is with the login page. That helps to narrow it down.\n\nWhen did this problem first appear? Was it after an update, has it always been there, or did it just start today?",
+      "timestamp": "2026-05-21T14:59:04.104557"
+    },
+    {
+      "role": "user",
+      "content": "The login outage is caused by yesterday's deployment.",
+      "timestamp": "2026-05-21T15:00:46.163122"
+    },
+    {
+      "role": "assistant",
+      "content": "So the problem started after a deployment that happened yesterday. That's a good clue.\n\nWhat exactly do you see on screen when you try to log in? Describe any error message, blank area, or unexpected behaviour that you're experiencing.",
+      "timestamp": "2026-05-21T15:00:50.364702"
+    }
+  ]
+}

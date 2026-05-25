@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Website Support Assistant</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.4.21/vue.global.prod.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,500;1,300&family=Overpass+Mono:wght@400;500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:       #16140F;
+  --ink2:      #4A4840;
+  --ink3:      #9A9488;
+  --paper:     #FAF8F3;
+  --paper2:    #F0EDE4;
+  --paper3:    #E4E0D4;
+  --line:      #D8D4C4;
+  --line2:     #C0BAA8;
+  --sage:      #3A6B50;
+  --sage-l:    #EAF1EC;
+  --sage-d:    #224033;
+  --night:     #16140F;
+  --night-t:   #FAF8F3;
+  --amber:     #C17A2A;
+  --amber-l:   #FDF3E3;
+  --amber-b:   #E8C98A;
+  --rose:      #943030;
+  --rose-l:    #FDEAEA;
+  --rose-b:    #E8A0A0;
+  --slate:     #2A3F7A;
+  --slate-l:   #EEF2FE;
+  --slate-b:   #A0B4E8;
+  --r:         14px;
+  --rs:        8px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Jost', sans-serif;
+  background: var(--paper);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background-image: radial-gradient(circle at 20% 20%, rgba(58,107,80,0.04) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 80%, rgba(42,63,122,0.04) 0%, transparent 50%);
+}
+
+/* Shell */
+.shell {
+  width: 100%;
+  max-width: 700px;
+  height: 94vh;
+  max-height: 860px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 2px 0 var(--line2), 0 8px 48px rgba(22,20,15,0.08), 0 2px 8px rgba(22,20,15,0.04);
+}
+
+/* Header */
+.header {
+  padding: 18px 26px 16px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--paper);
+}
+.h-mark {
+  width: 40px; height: 40px;
+  background: var(--sage-l);
+  border: 1px solid rgba(58,107,80,0.15);
+  border-radius: 11px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.h-mark svg { width: 18px; height: 18px; stroke: var(--sage); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.h-wordmark { font-family: 'Fraunces', serif; font-size: 17px; color: var(--ink); letter-spacing: -0.02em; }
+.h-sub { font-size: 11px; color: var(--ink3); margin-top: 1px; letter-spacing: 0.01em; }
+.h-badge {
+  margin-left: auto;
+  display: flex; align-items: center; gap: 5px;
+  font-size: 11px; color: var(--ink2);
+  background: var(--paper2);
+  border: 1px solid var(--line);
+  padding: 5px 11px;
+  border-radius: 20px;
+  font-family: 'Overpass Mono', monospace;
+  letter-spacing: 0.02em;
+}
+.live-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #4CAF7A;
+  animation: livepulse 2.5s ease-in-out infinite;
+}
+@keyframes livepulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.85)} }
+
+/* Escalation */
+.esc-strip {
+  padding: 9px 26px;
+  background: var(--rose-l);
+  border-bottom: 1px solid var(--rose-b);
+  color: var(--rose);
+  font-size: 13px;
+  display: flex; align-items: center; gap: 9px;
+}
+.esc-strip svg { width: 14px; height: 14px; stroke: var(--rose); fill: none; stroke-width: 1.8; flex-shrink: 0; }
+
+/* Step progress */
+.step-bar {
+  padding: 9px 26px 7px;
+  background: var(--paper2);
+  border-bottom: 1px solid var(--line);
+}
+.step-bar-lbl { font-size: 10px; color: var(--ink3); letter-spacing: 0.08em; text-transform: uppercase; font-family: 'Overpass Mono', monospace; margin-bottom: 5px; }
+.step-track { height: 3px; background: var(--line); border-radius: 2px; overflow: hidden; }
+.step-fill { height: 100%; background: var(--sage); border-radius: 2px; transition: width .7s cubic-bezier(.4,0,.2,1); }
+
+/* Messages */
+.messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 22px 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  scroll-behavior: smooth;
+}
+.messages::-webkit-scrollbar { width: 3px; }
+.messages::-webkit-scrollbar-thumb { background: var(--line); border-radius: 3px; }
+
+.msg-wrap { display: flex; flex-direction: column; animation: msgup .22s ease; }
+@keyframes msgup { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:none} }
+.msg-wrap.user      { align-items: flex-end; }
+.msg-wrap.assistant { align-items: flex-start; }
+
+.msg-label { font-size: 10px; color: var(--ink3); margin-bottom: 4px; font-family: 'Overpass Mono', monospace; letter-spacing: 0.04em; text-transform: uppercase; }
+
+.bubble {
+  max-width: 82%;
+  padding: 12px 17px;
+  border-radius: var(--r);
+  font-size: 14px;
+  line-height: 1.72;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: 'Jost', sans-serif;
+}
+.msg-wrap.user .bubble {
+  background: var(--night);
+  color: var(--night-t);
+  border-bottom-right-radius: 4px;
+}
+.msg-wrap.assistant .bubble {
+  background: var(--paper2);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-bottom-left-radius: 4px;
+}
+.bubble.gap   { background: var(--slate-l); border-color: var(--slate-b); color: var(--slate); }
+.bubble.warn  { background: var(--amber-l); border-color: var(--amber-b); color: var(--amber); font-size: 13px; }
+
+.note-row { display: flex; justify-content: center; padding: 2px 0; }
+.note-pill {
+  background: var(--amber-l);
+  border: 1px solid var(--amber-b);
+  color: var(--amber);
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-family: 'Overpass Mono', monospace;
+}
+
+/* Typing */
+.typing-bubble {
+  background: var(--paper2);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  border-bottom-left-radius: 4px;
+  padding: 14px 17px;
+  display: flex; gap: 5px; align-items: center;
+}
+.typing-bubble span {
+  width: 6px; height: 6px;
+  background: var(--ink3);
+  border-radius: 50%;
+  animation: tblink 1.3s ease-in-out infinite;
+}
+.typing-bubble span:nth-child(2){animation-delay:.2s}
+.typing-bubble span:nth-child(3){animation-delay:.4s}
+@keyframes tblink { 0%,60%,100%{opacity:.25;transform:scale(1)} 30%{opacity:1;transform:scale(1.2)} }
+
+/* Feedback */
+.feedback {
+  padding: 12px 26px;
+  border-top: 1px solid var(--line);
+  background: var(--paper2);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.fb-q { font-size: 13px; color: var(--ink2); }
+.fb-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.fbtn {
+  padding: 7px 16px;
+  border-radius: var(--rs);
+  border: 1px solid var(--line2);
+  background: var(--paper);
+  font-size: 13px;
+  font-family: 'Jost', sans-serif;
+  cursor: pointer;
+  color: var(--ink);
+  transition: all .14s;
+  letter-spacing: 0.01em;
+}
+.fbtn:hover { background: var(--paper3); }
+.fbtn.yes { background: var(--sage); border-color: var(--sage); color: #fff; }
+.fbtn.yes:hover { background: var(--sage-d); }
+.fbtn.no  { border-color: #C0A0A0; color: var(--rose); }
+.fbtn.no:hover { background: var(--rose-l); }
+
+/* Resolution form */
+.res-form { display: flex; flex-direction: column; gap: 8px; }
+.res-form label { font-size: 11px; color: var(--ink3); text-transform: uppercase; letter-spacing: 0.06em; font-family: 'Overpass Mono', monospace; }
+.res-form select,
+.res-form input {
+  padding: 8px 12px;
+  border: 1px solid var(--line2);
+  border-radius: var(--rs);
+  font-size: 13px;
+  font-family: 'Jost', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  outline: none;
+  transition: border-color .14s;
+}
+.res-form select:focus,
+.res-form input:focus { border-color: var(--sage); }
+
+/* Attach panel */
+.attach-panel {
+  padding: 10px 26px;
+  border-top: 1px solid var(--line);
+  background: var(--paper2);
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.attach-label { font-size: 11px; color: var(--ink3); text-transform: uppercase; letter-spacing: 0.06em; font-family: 'Overpass Mono', monospace; }
+.attach-row { display: flex; gap: 8px; align-items: flex-start; }
+.attach-row textarea {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid var(--line2);
+  border-radius: var(--rs);
+  font-size: 13px;
+  font-family: 'Jost', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  resize: vertical;
+  min-height: 36px;
+  max-height: 90px;
+  outline: none;
+  transition: border-color .14s;
+}
+.attach-row textarea:focus { border-color: var(--sage); }
+.close-btn { background: none; border: none; cursor: pointer; color: var(--ink3); font-size: 20px; padding: 4px 6px; line-height: 1; transition: color .14s; }
+.close-btn:hover { color: var(--ink); }
+
+/* Input bar */
+.inputbar {
+  padding: 14px 26px 18px;
+  border-top: 1px solid var(--line);
+  display: flex; gap: 10px; align-items: flex-end;
+  background: var(--paper);
+}
+.icon-btn {
+  width: 38px; height: 38px;
+  border-radius: var(--rs);
+  border: 1px solid var(--line2);
+  background: var(--paper2);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; flex-shrink: 0;
+  color: var(--ink2);
+  transition: all .14s;
+}
+.icon-btn:hover { background: var(--paper3); color: var(--ink); }
+.icon-btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.inputbar textarea {
+  flex: 1;
+  font-family: 'Jost', sans-serif;
+  font-size: 14px;
+  padding: 9px 14px;
+  border: 1px solid var(--line2);
+  border-radius: var(--rs);
+  background: var(--paper2);
+  color: var(--ink);
+  resize: none; outline: none;
+  line-height: 1.56;
+  min-height: 38px; max-height: 120px;
+  transition: border-color .14s, background .14s;
+}
+.inputbar textarea::placeholder { color: var(--ink3); }
+.inputbar textarea:focus { border-color: var(--sage); background: var(--paper); }
+.send-btn {
+  padding: 9px 20px;
+  background: var(--sage); color: #fff;
+  border: none; border-radius: var(--rs);
+  font-family: 'Jost', sans-serif; font-size: 14px; font-weight: 500;
+  cursor: pointer; flex-shrink: 0;
+  transition: background .14s;
+  letter-spacing: 0.02em;
+}
+.send-btn:hover { background: var(--sage-d); }
+.send-btn:disabled { background: var(--ink3); cursor: not-allowed; }
+/* Logout button */
+.logout-btn {
+  padding: 8px 16px;
+  border: 1px solid var(--line2);
+  background: var(--paper2);
+  color: var(--ink);
+  border-radius: var(--rs);
+  font-family: 'Jost', sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all .14s;
+}
+
+.logout-btn:hover {
+  background: var(--paper3);
+}
+
+.logout-btn:active {
+  transform: scale(0.98);
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="shell">
+
+    <!-- Header -->
+    <div class="header">
+      <div class="h-mark">
+        <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </div>
+      <div>
+        <div class="h-wordmark">Website Support</div>
+        <div class="h-sub">Guided by your site documentation</div>
+      </div>
+      <div style="display:flex; align-items:center; gap:10px; margin-left:auto;">
+        <div class="h-badge">
+          <span class="live-dot"></span> online
+       </div>
+
+       <button class="logout-btn" @click="logout">
+          Logout
+       </button>
+      </div>
+    </div>
+
+    <!-- Escalation banner -->
+    <div class="esc-strip" v-if="escalated">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      Your developer has been notified and will contact you shortly.
+    </div>
+
+    <!-- Step progress -->
+    <div class="step-bar" v-if="stepVisible">
+      <div class="step-bar-lbl">{{ stepLabel }}</div>
+      <div class="step-track"><div class="step-fill" :style="{ width: stepPct + '%' }"></div></div>
+    </div>
+
+    <!-- Messages -->
+    <div class="messages" ref="msgContainer">
+      <template v-for="(msg, i) in messages" :key="i">
+        <!-- Note pill -->
+        <div class="note-row" v-if="msg.role === 'note'">
+          <div class="note-pill">{{ msg.content }}</div>
+        </div>
+        <!-- Chat bubble -->
+        <div class="msg-wrap" :class="msg.role" v-else>
+          <div class="msg-label">{{ msg.role === 'user' ? 'you' : 'assistant' }}</div>
+          <div class="bubble" :class="msg.variant || ''">{{ msg.content }}</div>
+        </div>
+      </template>
+
+      <!-- Typing indicator -->
+      <div class="msg-wrap assistant" v-if="typing">
+        <div class="msg-label">assistant</div>
+        <div class="typing-bubble"><span></span><span></span><span></span></div>
+      </div>
+    </div>
+
+    <!-- Feedback panel -->
+    <div class="feedback" v-if="showFeedback">
+      <div class="fb-q">Did those steps resolve your issue?</div>
+      <!-- Buttons row -->
+      <div class="fb-row" v-if="!showResForm">
+        <button class="fbtn yes" @click="showResolutionForm">Yes, it is resolved</button>
+        <button class="fbtn no" @click="triggerFallback">No, it did not work</button>
+      </div>
+      <!-- Resolution form -->
+      <div class="res-form" v-if="showResForm">
+        <label>What type of issue was this?</label>
+        <select v-model="issueType">
+          <option value="">Select issue type…</option>
+          <option>Login / authentication</option>
+          <option>Images / media not loading</option>
+          <option>Forms not working</option>
+          <option>Page layout / display issue</option>
+          <option>Performance / slow loading</option>
+          <option>Content update problem</option>
+          <option>Navigation / menu issue</option>
+          <option>Other</option>
+        </select>
+        <label>In one sentence, what fixed it? (optional)</label>
+        <input type="text" v-model="resolutionNote" placeholder="e.g. Cleared the cache from Settings › Performance">
+        <div class="fb-row">
+          <button class="fbtn yes" @click="submitResolved">Save &amp; close session</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Error attach panel -->
+    <div class="attach-panel" v-if="attachOpen">
+      <div class="attach-label">Paste the error message or describe what you see:</div>
+      <div class="attach-row">
+        <textarea v-model="errorText" placeholder="e.g. 500 Internal Server Error / White screen / Login button does nothing…" rows="2"></textarea>
+        <button class="close-btn" @click="attachOpen = false">✕</button>
+      </div>
+    </div>
+
+    <!-- Input bar -->
+    <div class="inputbar">
+      <button class="icon-btn" title="Attach error message" @click="attachOpen = !attachOpen">
+        <svg viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+      </button>
+      <textarea
+        v-model="inputText"
+        placeholder="Describe your problem…"
+        rows="1"
+        ref="inputEl"
+        :disabled="sessionClosed"
+        @keydown.enter.exact.prevent="send()"
+        @input="autoResize"
+      ></textarea>
+      <button class="send-btn" :disabled="sending || sessionClosed" @click="send()">Send</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const { createApp, ref, nextTick, onMounted } = Vue;
+
+createApp({
+  setup() {
+    const API = 'http://localhost:5000/api';
+    const sessionId    = ref(null);
+    const messages     = ref([]);
+    const inputText    = ref('');
+    const errorText    = ref('');
+    const typing       = ref(false);
+    const sending      = ref(false);
+    const attachOpen   = ref(false);
+    const showFeedback = ref(false);
+    const showResForm  = ref(false);
+    const escalated    = ref(false);
+    const sessionClosed = ref(false);
+    const stepVisible  = ref(false);
+    const stepPct      = ref(0);
+    const stepLabel    = ref('Guided troubleshooting');
+    const issueType    = ref('');
+    const resolutionNote = ref('');
+    const lastReply    = ref('');
+    const fallbackCount = ref(0);
+    const msgContainer = ref(null);
+    const inputEl      = ref(null);
+
+    function addMsg(role, content, variant = '') {
+      messages.value.push({ role, content, variant });
+      nextTick(scrollBottom);
+    }
+
+    function scrollBottom() {
+      if (msgContainer.value) msgContainer.value.scrollTop = msgContainer.value.scrollHeight;
+    }
+
+    function autoResize(e) {
+      const el = e.target;
+      el.style.height = 'auto';
+      el.style.height = el.scrollHeight + 'px';
+    }
+
+    async function init() {
+      try {
+        const r = await fetch(`${API}/session/start`, { method: 'POST', credentials: 'include' })
+        const d = await r.json();
+        sessionId.value = d.session_id;
+        addMsg('assistant', d.opening_message);
+      } catch {
+        addMsg('assistant', 'Unable to connect to the support server. Please refresh or contact your developer.');
+      }
+    }
+
+    async function send(isFallback = false) {
+      const text = inputText.value.trim();
+      const err  = errorText.value.trim();
+      if (!text && !isFallback) return;
+
+      inputText.value = '';
+      if (inputEl.value) { inputEl.value.style.height = 'auto'; }
+      sending.value = true;
+      showFeedback.value = false;
+      showResForm.value  = false;
+
+      if (!isFallback) addMsg('user', text);
+      if (err && !isFallback) addMsg('note', `Error attached: "${err.slice(0,80)}${err.length>80?'…':''}"`);
+
+      typing.value = true;
+
+      try {
+        const res = await fetch(`${API}/chat`, {
+          credentials: 'include',
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            session_id:  sessionId.value,
+            message:     isFallback ? 'Please try a different approach' : text,
+            error_text:  err,
+            is_fallback: isFallback,
+          }),
+        });
+        const d = await res.json();
+        typing.value = false;
+        lastReply.value = d.reply;
+        fallbackCount.value = d.fallback_count ?? fallbackCount.value;
+
+        addMsg('assistant', d.reply, d.is_doc_gap ? 'gap' : '');
+
+        if (d.is_doc_gap) addMsg('note', 'This question was not found in your documentation. Your developer will be notified.');
+        if (d.mode === 'step') { stepVisible.value = true; stepPct.value = Math.min(85, 15 + fallbackCount.value * 20); }
+        if (d.escalated) escalated.value = true;
+
+        if (err) { errorText.value = ''; attachOpen.value = false; }
+        showFeedback.value = true;
+      } catch {
+        typing.value = false;
+        addMsg('assistant', 'Connection error — please try again.');
+      }
+      sending.value = false;
+    }
+
+    async function triggerFallback() {
+      showFeedback.value = false;
+      fallbackCount.value++;
+      addMsg('note', 'Looking for an alternative solution…');
+      await send(true);
+      if (fallbackCount.value >= 2) {
+        escalated.value = true;
+        await fetch(`${API}/session/resolve`, {
+          credentials: 'include',
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ session_id: sessionId.value, resolved: false }),
+        });
+      }
+    }
+
+    function showResolutionForm() { showResForm.value = true; }
+
+    async function submitResolved() {
+      showFeedback.value = false;
+      stepPct.value = 100; stepLabel.value = 'Issue resolved ✓';
+      addMsg('note', 'Issue marked as resolved. Thank you!');
+      await fetch(`${API}/session/resolve`, {
+        credentials: 'include',
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          session_id:      sessionId.value,
+          resolved:        true,
+          issue_type:      issueType.value,
+          resolution_note: resolutionNote.value,
+        }),
+      });
+      sessionClosed.value = true;
+    }
+    function logout() {
+      // Clear session data
+      sessionId.value = null;
+      messages.value = [];
+      sessionClosed.value = true;
+
+      // Redirect to login page
+      window.location.href = "frontend/login.html";
+    }
+    onMounted(init);
+
+    return {
+      messages, inputText, errorText, typing, sending,
+      attachOpen, showFeedback, showResForm, escalated,
+      sessionClosed, stepVisible, stepPct, stepLabel,
+      issueType, resolutionNote, msgContainer, inputEl,
+      send,triggerFallback,showResolutionForm,submitResolved,
+      autoResize,logout,
+    };
+  }
+}).mount('#app');
+</script>
+</body>
+</html>

@@ -1,0 +1,170 @@
+--- Page 1 ---
+Appointment Management System - Workflow & User Guide 
+This document explains the complete workflow and user guide for the Appointment 
+Management System, including visitor registration, appointment processing, approvals, 
+scheduling, check-in/check-out, and reporting. 
+1. Introduction 
+ 
+The Appointment Management System helps manage visitors, suppliers, appointments, 
+approvals, and reports efficiently. 
+ 
+The system ensures smooth communication between visitors, corporate users, 
+reception teams, and administrators. 
+2. Login Workflow 
+ 
+Open the Appointment Management System. 
+ 
+Enter Username and Password. 
+ 
+Click Login. 
+ 
+Dashboard will open after successful login. 
+3. Dashboard Workflow 
+ 
+Dashboard displays pending, approved, and rejected appointments. 
+ 
+Users can quickly access all modules from the dashboard. 
+ 
+Statistics and reports summary are visible on the dashboard. 
+4. Store Management Workflow 
+ 
+Navigate to Master → Store. 
+ 
+Click Create Store. 
+ 
+Enter Store Name, Location, and Address. 
+ 
+Save the store details. 
+ 
+Admin can Edit or Delete stores. 
+5. Venue Management Workflow 
+ 
+Navigate to Master → Venue. 
+ 
+Click Add Venue. 
+ 
+Enter Venue Name, Address, and Building Name. 
+ 
+Save the venue details. 
+6. User Management Workflow 
+ 
+Navigate to Master → User Management. 
+ 
+Click Add User. 
+ 
+Enter user details such as Name, Contact, Address, and User Type. 
+ 
+Save the user information.
+
+--- Page 2 ---
+7. Corporate User Workflow 
+ 
+Click Add Corporate User. 
+ 
+Enter Name, Phone, Email, and Address. 
+ 
+Assign Department, Designation, and Manager. 
+ 
+Save corporate user details. 
+8. Visitor Registration Workflow 
+ 
+Navigate to Visitor Registration. 
+ 
+Click Create Supplier/Visitor. 
+ 
+Enter visitor and company details. 
+ 
+Select Visit Purpose and Category. 
+ 
+Choose Direct or Agent Visit. 
+ 
+Save registration. 
+9. Agent Registration Workflow 
+ 
+If Agent option selected, enter Agent Name, Phone, City, State, and Pincode. 
+ 
+Save agent information. 
+10. Appointment Creation Workflow 
+ 
+Open Appointment Module. 
+ 
+Click Create Appointment. 
+ 
+Select Visitor, Host, Venue, Date, and Time. 
+ 
+Submit appointment request. 
+11. Appointment Approval Workflow 
+ 
+Admin reviews appointment requests. 
+ 
+Verify visitor and appointment details. 
+ 
+Update appointment status as Approved, Pending, Hold, Rejected, Rescheduled, or 
+Transferred. 
+ 
+Add remarks if necessary. 
+12. Appointment Scheduling Workflow 
+ 
+Assign appointment to a host. 
+ 
+Allocate available venue. 
+ 
+Confirm appointment date and time. 
+ 
+Visitor receives appointment confirmation. 
+13. Visitor Check-In Workflow 
+ 
+Reception or Security verifies visitor appointment. 
+ 
+Record visitor In Time, Store Name, and Location. 
+ 
+Visitor entry is completed.
+
+--- Page 3 ---
+14. Visitor Check-Out Workflow 
+ 
+Record visitor Out Time during exit. 
+ 
+System stores visitor history and logs. 
+15. Reports & Monitoring Workflow 
+ 
+Navigate to Reports Module. 
+ 
+Select report type. 
+ 
+Apply filters and generate reports. 
+ 
+Reports can be viewed or exported. 
+16. Notification Workflow 
+ 
+System sends appointment notifications through Email, SMS, or WhatsApp. 
+ 
+Visitors receive reminders and status updates. 
+17. Overall System Workflow 
+ 
+Admin creates master data. 
+ 
+Corporate users are created. 
+ 
+Visitor registers in the system. 
+ 
+Appointment request is submitted. 
+ 
+Admin reviews and processes request. 
+ 
+Host and venue are assigned. 
+ 
+Visitor checks in and checks out. 
+ 
+Reports are generated. 
+18. Benefits of the System 
+ 
+Centralized appointment management. 
+ 
+Improved visitor tracking. 
+ 
+Reduced manual work. 
+ 
+Better security monitoring. 
+ 
+Easy reporting and analytics.

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign in</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,500;1,300&family=Overpass+Mono:wght@400;500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:     #16140F;
+  --ink2:    #4A4840;
+  --ink3:    #9A9488;
+  --paper:   #FAF8F3;
+  --paper2:  #F0EDE4;
+  --paper3:  #E4E0D4;
+  --line:    #D8D4C4;
+  --line2:   #C0BAA8;
+  --sage:    #3A6B50;
+  --sage-l:  #EAF1EC;
+  --sage-d:  #224033;
+  --rose:    #943030;
+  --rose-l:  #FDEAEA;
+  --amber:   #C17A2A;
+  --r:       14px;
+  --rs:      8px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Jost', sans-serif;
+  background: var(--paper);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background-image:
+    radial-gradient(circle at 20% 20%, rgba(58,107,80,0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(42,63,122,0.04) 0%, transparent 50%);
+}
+
+.card {
+  width: 100%;
+  max-width: 400px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 40px 36px 36px;
+}
+
+.brand {
+  text-align: center;
+  margin-bottom: 32px;
+}
+.brand-title {
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+}
+.brand-sub {
+  font-family: 'Overpass Mono', monospace;
+  font-size: 11px;
+  color: var(--ink3);
+  margin-top: 4px;
+  letter-spacing: 0.04em;
+}
+
+.field { margin-bottom: 16px; }
+label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink2);
+  margin-bottom: 6px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px 14px;
+  font-family: 'Jost', sans-serif;
+  font-size: 15px;
+  color: var(--ink);
+  background: var(--paper2);
+  border: 1px solid var(--line);
+  border-radius: var(--rs);
+  outline: none;
+  transition: border-color 0.15s;
+}
+input:focus {
+  border-color: var(--sage);
+  background: var(--paper);
+}
+
+.btn {
+  width: 100%;
+  padding: 11px;
+  margin-top: 8px;
+  font-family: 'Jost', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: #fff;
+  background: var(--sage);
+  border: none;
+  border-radius: var(--rs);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn:hover  { background: var(--sage-d); }
+.btn:active { transform: scale(0.99); }
+
+.error {
+  display: none;
+  margin-top: 16px;
+  padding: 10px 14px;
+  background: var(--rose-l);
+  border: 1px solid #E8A0A0;
+  border-radius: var(--rs);
+  font-size: 13px;
+  color: var(--rose);
+}
+.error.show { display: block; }
+
+.hint {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.hint-card {
+  background: var(--paper2);
+  border: 1px solid var(--line);
+  border-radius: var(--rs);
+  padding: 10px 12px;
+}
+.hint-role {
+  font-family: 'Overpass Mono', monospace;
+  font-size: 10px;
+  color: var(--ink3);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 4px;
+}
+.hint-access {
+  font-size: 12px;
+  color: var(--ink2);
+  line-height: 1.4;
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="brand">
+    <div class="brand-title">Support Assistant</div>
+    <div class="brand-sub">sign in to continue</div>
+  </div>
+
+  <div class="field">
+    <label for="username">Username</label>
+    <input id="username" type="text" placeholder="enter username" autocomplete="username" autofocus>
+  </div>
+  <div class="field">
+    <label for="password">Password</label>
+    <input id="password" type="password" placeholder="enter password" autocomplete="current-password">
+  </div>
+
+  <button class="btn" id="login-btn">Sign in</button>
+
+  <div class="error" id="error-msg">Incorrect username or password.</div>
+</div>
+
+<script>
+async function doLogin() {
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value;
+  const errEl   = document.getElementById('error-msg');
+  const btn     = document.getElementById('login-btn');
+
+  if (!username || !password) {
+    errEl.textContent = 'Please enter both username and password.';
+    errEl.classList.add('show');
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Signing in…';
+  errEl.classList.remove('show');
+
+  try {
+    const res = await fetch('/api/auth/login', {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username,
+        password
+      })
+    });
+    const data = await res.json();
+
+    if (res.ok) {
+      window.location.replace(data.redirect || '/dashboard.html');
+    } else {
+      errEl.textContent = data.error || 'Login failed.';
+      errEl.classList.add('show');
+    }
+  } catch {
+    errEl.textContent = 'Network error. Please try again.';
+    errEl.classList.add('show');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Sign in';
+  }
+}
+
+document.getElementById('login-btn').addEventListener('click', doLogin);
+document.addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+</script>
+</body>
+</html>

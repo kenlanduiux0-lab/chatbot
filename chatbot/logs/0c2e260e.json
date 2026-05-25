@@ -1,0 +1,30 @@
+{
+  "session_id": "0c2e260e",
+  "started_at": "2026-05-25T12:52:34.089770",
+  "ended_at": null,
+  "resolved": false,
+  "escalated": false,
+  "fallback_used": false,
+  "fallback_count": 0,
+  "issue_type": null,
+  "problem_summary": null,
+  "resolution_note": null,
+  "doc_gaps": [],
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Hello! I am here to help you fix a problem with your website.\n\nLet's start by understanding the issue.\n\nWhich part of the website is affected? For example: the login page, images, a contact form, the menu, or something else?",
+      "timestamp": "2026-05-25T12:52:34.114614"
+    },
+    {
+      "role": "user",
+      "content": "images",
+      "timestamp": "2026-05-25T12:55:25.199084"
+    },
+    {
+      "role": "assistant",
+      "content": "So the issue is related to images on your website. \n\nWhen did this problem first appear? Was it after an update, has it always been there, or did it just start today?",
+      "timestamp": "2026-05-25T12:55:27.308309"
+    }
+  ]
+}

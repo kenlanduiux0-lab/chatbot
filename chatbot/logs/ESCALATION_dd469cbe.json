@@ -1,0 +1,10 @@
+{
+  "session_id": "dd469cbe",
+  "escalated_at": "2026-05-21T11:37:09.305316",
+  "fallback_count": 2,
+  "problem_summary": "unexpected behaviour",
+  "doc_gaps": [
+    "Please try a different approach"
+  ],
+  "message_count": 14
+}
