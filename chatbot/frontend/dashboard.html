@@ -16,7 +16,19 @@
   --bdr2:   #3E3C36;
   --txt:    #E8E4DC;
   --txt2:   #8A8678;
+<<<<<<< HEAD
   --txt3:   #B7B1A3;
+=======
+<<<<<<< HEAD
+  --txt3:   #B7B1A3;
+=======
+<<<<<<< HEAD
+  --txt3:   #B7B1A3;
+=======
+  --txt3:   #4A4840;
+>>>>>>> ade5f99e7819942961f5d7b8460046a1e97dbf3d
+>>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
+>>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
   --grn:    #5AAF7A;
   --grn-d:  #3A6B50;
   --grn-l:  #162010;
@@ -202,6 +214,10 @@ body { font-family: 'Jost', sans-serif; background: var(--bg); color: var(--txt)
 @keyframes tin { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:none} }
 
 .empty { font-size: 13px; color: var(--txt3); padding: 4px 0; }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
 .session-search-container {
   margin-top: 12px;
 }
@@ -222,6 +238,11 @@ body { font-family: 'Jost', sans-serif; background: var(--bg); color: var(--txt)
 .session-search-input:focus {
   border-color: var(--grn-d);
 }
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
+>>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
 </style>
 </head>
 <body>
@@ -260,6 +281,7 @@ body { font-family: 'Jost', sans-serif; background: var(--bg); color: var(--txt)
           <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Upload / Update
         </div>
       </div>
+<<<<<<< HEAD
      <div class="sb-footer">
         <div class="doc-lbl">Current doc</div>
         <div class="doc-name">{{ uploadedFileName || docMeta.filename || 'none' }}</div>
@@ -272,6 +294,19 @@ body { font-family: 'Jost', sans-serif; background: var(--bg); color: var(--txt)
   >
           Logout
        </button>
+=======
+      <div class="sb-footer">
+        <div class="doc-lbl">Current doc</div>
+<<<<<<< HEAD
+        <div class="doc-name"> {{ uploadedFileName || docMeta.filename || 'none' }}</div>
+=======
+<<<<<<< HEAD
+        <div class="doc-name"> {{ uploadedFileName || docMeta.filename || 'none' }}</div>
+=======
+        <div class="doc-name">{{ docMeta.filename || 'none' }}</div>
+>>>>>>> ade5f99e7819942961f5d7b8460046a1e97dbf3d
+>>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
+>>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
       </div>
     </div>
 
@@ -288,7 +323,19 @@ body { font-family: 'Jost', sans-serif; background: var(--bg); color: var(--txt)
           <div class="stat-card c-red"><div class="stat-lbl">Escalated</div><div class="stat-val">{{ analytics.escalated ?? '—' }}</div><div class="stat-sub">developer was alerted</div></div>
         </div>
         <div class="sec">
+<<<<<<< HEAD
           <div class="sec-hdr"><div class="sec-title">Top issue types</div></div>
+=======
+<<<<<<< HEAD
+          <div class="sec-hdr"><div class="sec-title">Top issue types</div></div>
+=======
+<<<<<<< HEAD
+          <div class="sec-hdr"><div class="sec-title">Top issue types</div></div>
+=======
+          <div class="sec-hdr"><div class="sec-title">Top issue types</div><div class="sec-meta">Amber = recurring (3+)</div></div>
+>>>>>>> ade5f99e7819942961f5d7b8460046a1e97dbf3d
+>>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
+>>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
           <div class="sec-body">
             <div class="bar-list" v-if="analytics.top_issue_types && analytics.top_issue_types.length">
               <div class="bar-row" :class="{rec: item.count >= 3}" v-for="item in analytics.top_issue_types" :key="item.type">
@@ -317,6 +364,10 @@ body { font-family: 'Jost', sans-serif; background: var(--bg); color: var(--txt)
 
       <!-- Escalations -->
       <div class="page" :class="{active: page==='escalations'}">
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
         <div class="ph">
           <h1>Escalations</h1>
           <p>Sessions where the admin could not resolve the issue</p>
@@ -331,6 +382,14 @@ body { font-family: 'Jost', sans-serif; background: var(--bg); color: var(--txt)
         </div>
           <div v-if="filteredEscalations.length">
             <div class="esc-card" v-for="e in filteredEscalations" :key="e.session_id">
+<<<<<<< HEAD
+=======
+=======
+        <div class="ph"><h1>Escalations</h1><p>Sessions where the admin could not resolve the issue</p></div>
+        <div v-if="escalations.length">
+          <div class="esc-card" v-for="e in escalations" :key="e.session_id">
+>>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
+>>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
             <div class="esc-title">Session #{{ e.session_id }} — Escalated</div>
             <div class="esc-meta">{{ fmtDate(e.escalated_at) }} · {{ e.fallback_count }} failed attempt(s) · {{ e.message_count }} messages</div>
             <div class="esc-gaps" v-if="e.problem_summary">Problem: {{ e.problem_summary }}</div>
@@ -346,6 +405,10 @@ body { font-family: 'Jost', sans-serif; background: var(--bg); color: var(--txt)
 
       <!-- Sessions -->
       <div class="page" :class="{active: page==='sessions'}">
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
         <div class="ph"><h1>All sessions</h1><p>Full conversation logs with metadata</p>
         <div class="session-search-container">
         <input
@@ -356,6 +419,12 @@ body { font-family: 'Jost', sans-serif; background: var(--bg); color: var(--txt)
             />
         </div>
         </div>
+<<<<<<< HEAD
+=======
+=======
+        <div class="ph"><h1>All sessions</h1><p>Full conversation logs with metadata</p></div>
+>>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
+>>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
         <div class="filters">
           <button class="flt" :class="{active: sessFilter==='all'}"        @click="sessFilter='all'">All</button>
           <button class="flt" :class="{active: sessFilter==='resolved'}"   @click="sessFilter='resolved'">Resolved</button>
@@ -414,6 +483,7 @@ body { font-family: 'Jost', sans-serif; background: var(--bg); color: var(--txt)
 
       <!-- Live sessions -->
       <div class="page" :class="{active: page==='live'}">
+<<<<<<< HEAD
         
 
   <div class="ph">
@@ -505,6 +575,32 @@ body { font-family: 'Jost', sans-serif; background: var(--bg); color: var(--txt)
 
 <!-- Docs -->
 <div class="page" :class="{active: page==='docs'}">
+=======
+        <div class="ph"><h1>Live sessions</h1><p>Inject a silent hint into an active session</p></div>
+        <div v-if="liveSessions.length">
+          <div class="sec" v-for="s in liveSessions" :key="s.session_id" style="margin-bottom:14px">
+            <div class="sec-hdr">
+              <div class="sec-title">Session #{{ s.session_id }}</div>
+              <div style="display:flex;gap:6px">
+                <span class="bdg blu">{{ s.mode }} mode</span>
+                <span class="bdg" :class="s.fallback_count > 0 ? 'amb' : 'grn'">{{ s.message_count }} msgs</span>
+              </div>
+            </div>
+            <div class="sec-body">
+              <p style="font-size:13px;color:var(--txt2);margin-bottom:10px;line-height:1.6">Type a hint — the chatbot uses it silently. The admin will not see it.</p>
+              <div class="inject-row">
+                <input type="text" v-model="noteInputs[s.session_id]" placeholder="e.g. Admin is likely on the staging server, not production…">
+                <button class="btn primary" @click="injectNote(s.session_id)">Inject</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="empty" v-else>No active sessions right now.</div>
+      </div>
+
+      <!-- Docs -->
+      <div class="page" :class="{active: page==='docs'}">
+>>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
         <div class="ph"><h1>Documentation</h1><p>Upload and manage the PDF that powers the chatbot</p></div>
         <div class="sec" style="margin-bottom:16px">
           <div class="sec-hdr"><div class="sec-title">Current document</div></div>
@@ -553,13 +649,18 @@ const { createApp, ref, computed, onMounted } = Vue;
 
 createApp({
   setup() {
+<<<<<<< HEAD
     const API = '/api';
+=======
+    const API = 'http://localhost:5000/api';
+>>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
 
     const page        = ref('analytics');
     const sessions    = ref([]);
     const analytics   = ref({});
     const escalations = ref([]);
     const docMeta     = ref({});
+<<<<<<< HEAD
     const uploadedFileName = ref('');
     const liveSessions= ref([]);
     const sessFilter  = ref('all');
@@ -568,6 +669,26 @@ createApp({
     const noteInputs  = ref({});
     const allSessionSearch = ref('');
     const escalationSearch = ref('');
+=======
+<<<<<<< HEAD
+    const uploadedFileName = ref('');
+=======
+<<<<<<< HEAD
+    const uploadedFileName = ref('');
+=======
+>>>>>>> ade5f99e7819942961f5d7b8460046a1e97dbf3d
+>>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
+    const liveSessions= ref([]);
+    const sessFilter  = ref('all');
+    const openSessions= ref(new Set());
+    const noteInputs  = ref({});
+<<<<<<< HEAD
+    const allSessionSearch = ref('');
+    const escalationSearch = ref('');
+=======
+
+>>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
+>>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
     const upStatus = ref(''); const upErr = ref(false);
     const hotStatus= ref(''); const hotErr= ref(false);
 
@@ -593,6 +714,10 @@ createApp({
       if (!t || !t.length) return 1;
       return Math.max(1, ...t.map(i => i.count));
     });
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
     const filteredEscalations = computed(() => {
       let e = [...escalations.value];
 
@@ -648,6 +773,50 @@ createApp({
     return timeB - timeA;
   });
 });
+<<<<<<< HEAD
+=======
+=======
+
+    const filteredSessions = computed(() => {
+<<<<<<< HEAD
+    const f = sessFilter.value;
+
+    // clone array before sorting
+    let s = [...sessions.value];
+
+    // apply filters
+    if (f === 'resolved') {
+      s = s.filter(x => x.resolved);
+    } else if (f === 'unresolved') {
+      s = s.filter(x => !x.resolved);
+    } else if (f === 'escalated') {
+      s = s.filter(x => x.escalated);
+    } else if (f === 'fallback') {
+      s = s.filter(x => x.fallback_used);
+    } else if (f === 'gaps') {
+      s = s.filter(x => x.doc_gaps && x.doc_gaps.length);
+    }
+
+    // newest sessions first
+    return s.sort((a, b) => {
+      const timeA = new Date(a.started_at || a.updated_at || 0).getTime();
+      const timeB = new Date(b.started_at || b.updated_at || 0).getTime();
+      return timeB - timeA;
+    });
+
+=======
+      const f = sessFilter.value;
+      const s = sessions.value;
+      if (f === 'resolved')   return s.filter(x => x.resolved);
+      if (f === 'unresolved') return s.filter(x => !x.resolved);
+      if (f === 'escalated')  return s.filter(x => x.escalated);
+      if (f === 'fallback')   return s.filter(x => x.fallback_used);
+      if (f === 'gaps')       return s.filter(x => x.doc_gaps && x.doc_gaps.length);
+      return s;
+>>>>>>> ade5f99e7819942961f5d7b8460046a1e97dbf3d
+    });
+>>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
+>>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
 
     function toggleSession(i) {
       const s = new Set(openSessions.value);
@@ -658,10 +827,15 @@ createApp({
     async function loadAll() {
       try {
         const [sR, aR, eR, mR] = await Promise.all([
+<<<<<<< HEAD
           fetch(`${API}/logs`,        { credentials: 'include' }),
           fetch(`${API}/analytics`,   { credentials: 'include' }),
           fetch(`${API}/escalations`, { credentials: 'include' }),
           fetch(`${API}/doc/meta`,    { credentials: 'include' }),
+=======
+          fetch(`${API}/logs`), fetch(`${API}/analytics`),
+          fetch(`${API}/escalations`), fetch(`${API}/doc/meta`),
+>>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
         ]);
         sessions.value    = await sR.json();
         analytics.value   = await aR.json();
@@ -672,7 +846,11 @@ createApp({
 
     async function loadLive() {
       try {
+<<<<<<< HEAD
         const r = await fetch(`${API}/sessions/active`, { credentials: 'include' })
+=======
+        const r = await fetch(`${API}/sessions/active`);
+>>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
         liveSessions.value = await r.json();
       } catch { liveSessions.value = []; }
     }
@@ -682,7 +860,10 @@ createApp({
       if (!note) return;
       try {
         const r = await fetch(`${API}/session/inject-note`, {
+<<<<<<< HEAD
           credentials: 'include',
+=======
+>>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ session_id: sid, note }),
@@ -692,6 +873,7 @@ createApp({
         toast(d.status || 'Note injected', 'ok');
       } catch { toast('Failed to inject note', 'err'); }
     }
+<<<<<<< HEAD
     async function logout() {
       try {
         await fetch(`${API}/auth/logout`, {
@@ -705,6 +887,9 @@ createApp({
         toast('Logout failed', 'err');
       }
     }
+=======
+
+>>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
     async function uploadPDF(isHot) {
       const fileRef = isHot ? 'hotFile' : 'pdfFile';
       // Access via event since we use refs differently in Vue 3 options
@@ -712,7 +897,18 @@ createApp({
                     (isHot ? document.querySelectorAll('input[type=file]')[1] : document.querySelectorAll('input[type=file]')[0]);
       if (!input || !input.files[0]) return;
       const file = input.files[0];
+<<<<<<< HEAD
       uploadedFileName.value = file.name;
+=======
+<<<<<<< HEAD
+      uploadedFileName.value = file.name;
+=======
+<<<<<<< HEAD
+      uploadedFileName.value = file.name;
+=======
+>>>>>>> ade5f99e7819942961f5d7b8460046a1e97dbf3d
+>>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
+>>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
 
       if (isHot) { hotStatus.value = 'Uploading…'; hotErr.value = false; }
       else        { upStatus.value  = 'Uploading…'; upErr.value  = false; }
@@ -721,7 +917,11 @@ createApp({
       form.append('file', file);
       const endpoint = isHot ? `${API}/doc/hot-reload` : `${API}/upload-pdf`;
       try {
+<<<<<<< HEAD
         const r = await fetch(endpoint, { method: 'POST', body: form, credentials: 'include' });
+=======
+        const r = await fetch(endpoint, { method: 'POST', body: form });
+>>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
         const d = await r.json();
         if (d.error) {
           if (isHot) { hotErr.value = true; hotStatus.value = 'Error: ' + d.error; }
@@ -738,6 +938,7 @@ createApp({
         else        { upErr.value  = true; upStatus.value  = 'Upload failed.'; }
       }
     }
+<<<<<<< HEAD
    function toggleLive(i) {
   const s = new Set(openLive.value);
 
@@ -827,6 +1028,30 @@ async function injectLive(session) {
 
   openLive,
 };
+=======
+
+    onMounted(() => {
+      loadAll();
+      setInterval(loadAll, 30000);
+    });
+
+    return {
+      page, sessions, analytics, escalations, docMeta,
+      liveSessions, sessFilter, openSessions, noteInputs,
+      upStatus, upErr, hotStatus, hotErr,
+      toastMsg, toastShow, toastType,
+<<<<<<< HEAD
+      maxIssueCount,filteredSessions,filteredEscalations,
+      allSessionSearch,escalationSearch,
+      toggleSession, loadAll, loadLive, injectNote, uploadPDF,
+      fmtDate,escH,
+=======
+      maxIssueCount, filteredSessions,
+      toggleSession, loadAll, loadLive, injectNote, uploadPDF,
+      fmtDate, escH,
+>>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
+    };
+>>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
   }
 }).mount('#app');
 </script>

@@ -3,11 +3,28 @@ __pycache__/
 *.pyc
 chatbot/__pycache__/
 chatbot/*.pyc
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+/chatbot/__pycache__/
+>>>>>>> ade5f99e7819942961f5d7b8460046a1e97dbf3d
+>>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
+>>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
 
 # Virtual environments
 venv/
 chatbot/.venv/
 .venv/
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
+>>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
 
 # Environment files
 .env
@@ -17,6 +34,25 @@ chatbot/.env
 .vscode/
 chatbot/.vscode/
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+=======
+/chatbot/.venv/
+.venv
+# Environment files
+.env
+chatbot/.env
+/chatbot/.env
+# VS Code settings
+.vscode/
+chatbot/.vscode/
+/chatbot/.vscode/
+.vscode
+>>>>>>> ade5f99e7819942961f5d7b8460046a1e97dbf3d
+>>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
+>>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
 # Logs
 *.log
 
@@ -37,7 +73,33 @@ cache/
 uploads/
 
 # Prompt folder
+<<<<<<< HEAD
 chatbot/prompts/
 \prompts
 # Specific sensitive files
 chatbot/prompts/API.txt
+=======
+<<<<<<< HEAD
+chatbot/prompts/
+\prompts
+# Specific sensitive files
+chatbot/prompts/API.txt
+=======
+<<<<<<< HEAD
+chatbot/prompts/
+\prompts
+# Specific sensitive files
+chatbot/prompts/API.txt
+=======
+chatbot/prompts
+/chatbot/prompts
+prompts/
+/prompts
+/prompts/
+
+# Specific sensitive files
+chatbot/prompts/API.txt
+/chatbot/prompts/API.txt
+>>>>>>> ade5f99e7819942961f5d7b8460046a1e97dbf3d
+>>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
+>>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e

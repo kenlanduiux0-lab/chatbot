@@ -132,6 +132,7 @@ def get_all_sessions() -> list:
                 sessions.append(json.load(f))
     return sessions
 
+<<<<<<< HEAD
 def get_live_sessions(active_sessions: dict) -> list:
     result = []
 
@@ -147,6 +148,9 @@ def get_live_sessions(active_sessions: dict) -> list:
         result.append(log)
 
     return result
+=======
+
+>>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
 def get_escalations() -> list:
     result = []
     if not os.path.exists(LOGS_DIR):
