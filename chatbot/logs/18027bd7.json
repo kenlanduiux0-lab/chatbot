@@ -1,0 +1,40 @@
+{
+  "session_id": "18027bd7",
+  "started_at": "2026-05-29T11:22:03.451971",
+  "ended_at": null,
+  "resolved": false,
+  "escalated": false,
+  "fallback_used": false,
+  "fallback_count": 0,
+  "issue_type": null,
+  "problem_summary": null,
+  "resolution_note": null,
+  "doc_gaps": [],
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Hello! I am here to help you fix a problem with your website.\n\nLet's start by understanding the issue.\n\nWhich part of the website is affected? For example: login page, images, forms, dashboard, menu, or something else?",
+      "timestamp": "2026-05-29T11:22:03.467891"
+    },
+    {
+      "role": "user",
+      "content": "dashboard",
+      "timestamp": "2026-05-29T11:22:50.156234"
+    },
+    {
+      "role": "assistant",
+      "content": "So the issue is with your website's dashboard. That helps to narrow it down.\n\nWhen did this problem first appear? Was it after an update, has it always been there, or did it just start today?",
+      "timestamp": "2026-05-29T11:22:52.374247"
+    },
+    {
+      "role": "user",
+      "content": "dashboard layout has been changed after update. i prefer the old one",
+      "timestamp": "2026-05-29T11:26:52.146632"
+    },
+    {
+      "role": "assistant",
+      "content": "So the problem started after an update, and it's specifically related to the change in the dashboard layout. You preferred the old layout.\n\nWhat exactly do you see on screen? Describe any error message, blank area, or unexpected behaviour that you're experiencing with the new dashboard layout.",
+      "timestamp": "2026-05-29T11:26:56.128722"
+    }
+  ]
+}

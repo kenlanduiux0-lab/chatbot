@@ -1,0 +1,40 @@
+{
+  "session_id": "ff4debf6",
+  "started_at": "2026-05-27T15:59:58.251708",
+  "ended_at": null,
+  "resolved": false,
+  "escalated": false,
+  "fallback_used": false,
+  "fallback_count": 0,
+  "issue_type": null,
+  "problem_summary": null,
+  "resolution_note": null,
+  "doc_gaps": [],
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Hello! I am here to help you fix a problem with your website.\n\nLet's start by understanding the issue.\n\nWhich part of the website is affected? For example: login page, images, forms, dashboard, menu, or something else?",
+      "timestamp": "2026-05-27T15:59:58.272075"
+    },
+    {
+      "role": "user",
+      "content": "forms",
+      "timestamp": "2026-05-27T16:00:13.389331"
+    },
+    {
+      "role": "assistant",
+      "content": "So the issue is with the forms on your website. That helps to narrow it down.\n\nWhen did this problem first appear? Was it after an update, has it always been there, or did it just start today?",
+      "timestamp": "2026-05-27T16:00:16.702981"
+    },
+    {
+      "role": "user",
+      "content": "after an update",
+      "timestamp": "2026-05-27T16:00:38.508994"
+    },
+    {
+      "role": "assistant",
+      "content": "So the problem with the forms started after an update. That's a good clue.\n\nWhat exactly do you see on screen? Describe any error message, blank area, or unexpected behaviour that's happening with the forms.",
+      "timestamp": "2026-05-27T16:00:41.612809"
+    }
+  ]
+}

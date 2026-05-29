@@ -319,7 +319,6 @@ body {
 }
 .send-btn:hover { background: var(--sage-d); }
 .send-btn:disabled { background: var(--ink3); cursor: not-allowed; }
-<<<<<<< HEAD
 /* Logout button */
 .logout-btn {
   padding: 8px 16px;
@@ -340,8 +339,6 @@ body {
 .logout-btn:active {
   transform: scale(0.98);
 }
-=======
->>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
 </style>
 </head>
 <body>
@@ -357,20 +354,20 @@ body {
         <div class="h-wordmark">Website Support</div>
         <div class="h-sub">Guided by your site documentation</div>
       </div>
-<<<<<<< HEAD
-      <div style="display:flex; align-items:center; gap:10px; margin-left:auto;">
-        <div class="h-badge">
-          <span class="live-dot"></span> online
-       </div>
-
-       <button class="logout-btn" @click="logout">
-          Logout
-       </button>
-      </div>
-=======
-      <div class="h-badge"><span class="live-dot"></span> online</div>
->>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
-    </div>
+        <div style="display:flex; align-items:center; gap:10px; margin-left:auto;">
+          <div class="h-badge">
+            <span class="live-dot"></span> online
+         </div>
+           <div style="display:flex; gap:8px; align-items:center;">
+              <button class="logout-btn" @click="showEscPanel = !showEscPanel">
+                Escalations
+              </button>
+              <button class="logout-btn" @click="logout">
+                Logout
+              </button>
+            </div>
+        </div>
+  </div>
 
     <!-- Escalation banner -->
     <div class="esc-strip" v-if="escalated">
@@ -379,6 +376,151 @@ body {
     </div>
 
     <!-- Step progress -->
+    <!-- Escalation Management Panel -->
+      <div
+        v-if="showEscPanel"
+        style="
+          border-bottom:1px solid var(--line);
+          background:var(--paper2);
+          padding:16px 26px;
+          max-height:320px;
+          overflow-y:auto;
+        "
+      >
+
+        <div style="
+          display:flex;
+          justify-content:space-between;
+          align-items:center;
+          margin-bottom:14px;
+        ">
+
+          <div style="
+            font-family:'Fraunces',serif;
+            font-size:18px;
+            color:var(--ink);
+          ">
+            Escalated / Unresolved Sessions
+          </div>
+
+          <button
+            class="close-btn"
+            @click="showEscPanel = false"
+          >
+            ✕
+          </button>
+
+        </div>
+
+        <!-- Filters -->
+        <div
+          style="
+            display:flex;
+            gap:8px;
+            margin-bottom:14px;
+            flex-wrap:wrap;
+          "
+        >
+
+          <button
+            class="fbtn"
+            :class="{yes: escFilter==='all'}"
+            @click="escFilter='all'"
+          >
+            All
+          </button>
+
+          <button
+            class="fbtn"
+            :class="{yes: escFilter==='escalated'}"
+            @click="escFilter='escalated'"
+          >
+            Escalated
+          </button>
+
+          <button
+            class="fbtn"
+            :class="{yes: escFilter==='unresolved'}"
+            @click="escFilter='unresolved'"
+          >
+            Unresolved
+          </button>
+
+        </div>
+
+        <!-- Session List -->
+        <div
+          v-if="filteredAdminSessions.length"
+          style="
+            display:flex;
+            flex-direction:column;
+            gap:10px;
+          "
+        >
+
+          <div
+            v-for="s in filteredAdminSessions"
+            :key="s.session_id"
+            style="
+              background:var(--paper);
+              border:1px solid var(--line);
+              border-radius:12px;
+              padding:12px 14px;
+              display:flex;
+              align-items:center;
+              gap:10px;
+            "
+          >
+
+            <div style="
+              font-family:'Overpass Mono',monospace;
+              font-size:13px;
+              font-weight:500;
+            ">
+              #{{ s.session_id }}
+            </div>
+
+            <span
+              class="note-pill"
+              v-if="s.escalated"
+            >
+              escalated
+            </span>
+
+            <span
+              class="note-pill"
+              v-if="!s.resolved"
+            >
+              unresolved
+            </span>
+
+            <div style="margin-left:auto">
+
+              <button
+                class="fbtn yes"
+                @click="resolveAdminSession(s)"
+              >
+                Resolve
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <div
+          v-else
+          style="
+            color:var(--ink3);
+            font-size:13px;
+          "
+        >
+          No matching sessions
+        </div>
+
+      </div>
+
     <div class="step-bar" v-if="stepVisible">
       <div class="step-bar-lbl">{{ stepLabel }}</div>
       <div class="step-track"><div class="step-fill" :style="{ width: stepPct + '%' }"></div></div>
@@ -406,6 +548,35 @@ body {
     </div>
 
     <!-- Feedback panel -->
+    
+    <!-- Step helper buttons -->
+    <div
+      class="feedback"
+      v-if="awaitingDone && !sessionClosed"
+    >
+      <div class="fb-q">
+        Have you completed the troubleshooting step?
+      </div>
+
+      <div class="fb-row">
+
+        <button
+          class="fbtn yes"
+          @click="inputText='DONE'; send()"
+        >
+          DONE
+        </button>
+
+        <button
+          class="fbtn no"
+          @click="inputText='STUCK'; send()"
+        >
+          STUCK
+        </button>
+
+      </div>
+    </div>
+
     <div class="feedback" v-if="showFeedback">
       <div class="fb-q">Did those steps resolve your issue?</div>
       <!-- Buttons row -->
@@ -451,7 +622,7 @@ body {
       </button>
       <textarea
         v-model="inputText"
-        placeholder="Describe your problem…"
+        :placeholder="sessionClosed ? 'Session closed' : 'Describe your problem…'"
         rows="1"
         ref="inputEl"
         :disabled="sessionClosed"
@@ -486,10 +657,20 @@ createApp({
     const stepLabel    = ref('Guided troubleshooting');
     const issueType    = ref('');
     const resolutionNote = ref('');
-    const lastReply    = ref('');
-    const fallbackCount = ref(0);
     const msgContainer = ref(null);
     const inputEl      = ref(null);
+    const lastReply       = ref('');
+    const fallbackCount   = ref(0);
+    const currentMode     = ref('classify');
+    const currentStep     = ref(0);
+    const awaitingDone    = ref(false);
+    const awaitingResolution = ref(false);
+    const classifierStage = ref(1);
+    const docLoaded       = ref(true);
+    const showEscPanel    = ref(false);
+    const adminSessions   = ref([]);
+    const escFilter       = ref('all');
+
 
     function addMsg(role, content, variant = '') {
       messages.value.push({ role, content, variant });
@@ -506,142 +687,579 @@ createApp({
       el.style.height = el.scrollHeight + 'px';
     }
 
-    async function init() {
+
+    async function checkDocStatus() {
       try {
-<<<<<<< HEAD
-        const r = await fetch(`${API}/session/start`, { method: 'POST', credentials: 'include' })
-=======
-        const r = await fetch(`${API}/session/start`, { method: 'POST' });
->>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
+        const r = await fetch(`${API}/doc/status`);
         const d = await r.json();
-        sessionId.value = d.session_id;
-        addMsg('assistant', d.opening_message);
+
+        docLoaded.value = d.loaded;
+
+        if (!d.loaded) {
+          addMsg(
+            'assistant',
+            'No documentation is currently loaded. Please contact the developer.',
+            'warn'
+          );
+        }
+
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    async function init() {
+
+      try {
+
+        // CLEAR OLD SESSION WHEN OPENING ADMIN CHAT
+        const currentPath = window.location.pathname;
+
+        // If admin opens index.html directly,
+        // always start a fresh session
+        if (
+          currentPath.includes('index.html')
+        ) {
+          sessionStorage.removeItem(
+            'support_session_id'
+          );
+        }
+
+        const existingSession =
+          sessionStorage.getItem(
+            'support_session_id'
+          );
+
+        if (existingSession) {
+
+          sessionId.value =
+            existingSession;
+
+          addMsg(
+            'assistant',
+            'Previous support session restored.'
+          );
+
+          return;
+        }
+
+        const r = await fetch(
+          `${API}/session/start`,
+          {
+            method: 'POST',
+            credentials: 'include'
+          }
+        );
+
+        const d = await r.json();
+
+        sessionId.value =
+          d.session_id;
+
+        sessionStorage.setItem(
+          'support_session_id',
+          d.session_id
+        );
+
+        addMsg(
+          'assistant',
+          d.opening_message
+        );
+
       } catch {
-        addMsg('assistant', 'Unable to connect to the support server. Please refresh or contact your developer.');
+
+        addMsg(
+          'assistant',
+          'Unable to connect to the support server. Please refresh or contact your developer.'
+        );
       }
     }
 
     async function send(isFallback = false) {
-      const text = inputText.value.trim();
-      const err  = errorText.value.trim();
-      if (!text && !isFallback) return;
 
-      inputText.value = '';
-      if (inputEl.value) { inputEl.value.style.height = 'auto'; }
-      sending.value = true;
-      showFeedback.value = false;
-      showResForm.value  = false;
+        const text = inputText.value.trim();
+        const err  = errorText.value.trim();
 
-      if (!isFallback) addMsg('user', text);
-      if (err && !isFallback) addMsg('note', `Error attached: "${err.slice(0,80)}${err.length>80?'…':''}"`);
+        if (!text && !isFallback) return;
 
-      typing.value = true;
+        inputText.value = '';
 
-      try {
-        const res = await fetch(`${API}/chat`, {
-<<<<<<< HEAD
-          credentials: 'include',
-=======
->>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            session_id:  sessionId.value,
-            message:     isFallback ? 'Please try a different approach' : text,
-            error_text:  err,
-            is_fallback: isFallback,
-          }),
-        });
-        const d = await res.json();
-        typing.value = false;
-        lastReply.value = d.reply;
-        fallbackCount.value = d.fallback_count ?? fallbackCount.value;
+        if (inputEl.value) {
+          inputEl.value.style.height = 'auto';
+        }
 
-        addMsg('assistant', d.reply, d.is_doc_gap ? 'gap' : '');
+        sending.value = true;
 
-        if (d.is_doc_gap) addMsg('note', 'This question was not found in your documentation. Your developer will be notified.');
-        if (d.mode === 'step') { stepVisible.value = true; stepPct.value = Math.min(85, 15 + fallbackCount.value * 20); }
-        if (d.escalated) escalated.value = true;
+        showFeedback.value = false;
+        showResForm.value = false;
 
-        if (err) { errorText.value = ''; attachOpen.value = false; }
-        showFeedback.value = true;
-      } catch {
-        typing.value = false;
-        addMsg('assistant', 'Connection error — please try again.');
+        if (!isFallback) {
+          addMsg('user', text);
+        }
+
+        if (err && !isFallback) {
+          addMsg(
+            'note',
+            `Error attached: "${err.slice(0,80)}${err.length>80?'…':''}"`
+          );
+        }
+
+        typing.value = true;
+
+        try {
+
+          const res = await fetch(`${API}/chat`, {
+            credentials:'include',
+            method:'POST',
+            headers:{
+              'Content-Type':'application/json'
+            },
+            body:JSON.stringify({
+              session_id: sessionId.value,
+              message: isFallback
+                ? 'Please try a different approach'
+                : text,
+              error_text: err,
+              is_fallback: isFallback,
+            })
+          });
+
+          const d = await res.json();
+
+          if (
+            d.error &&
+            d.error.includes('expired')
+          ) {
+
+            sessionStorage.removeItem(
+              'support_session_id'
+            );
+
+            addMsg(
+              'assistant',
+              'Your session expired. Starting a new session...',
+              'warn'
+            );
+
+            await init();
+
+            sending.value = false;
+
+            return;
+          }
+
+          typing.value = false;
+
+          if (d.error) {
+
+            addMsg(
+              'assistant',
+              d.error,
+              'warn'
+            );
+
+            sending.value = false;
+            return;
+          }
+
+          currentMode.value = d.mode || currentMode.value;
+
+          currentStep.value = d.current_step || 0;
+
+          awaitingDone.value = d.awaiting_done || false;
+
+          awaitingResolution.value =
+            d.awaiting_resolution || false;
+
+          classifierStage.value =
+            d.classifier_stage || classifierStage.value;
+
+          fallbackCount.value =
+            d.fallback_count ?? fallbackCount.value;
+
+          lastReply.value = d.reply || '';
+
+          if (d.reply) {
+
+            addMsg(
+              'assistant',
+              d.reply,
+              d.is_doc_gap ? 'gap' : ''
+            );
+          }
+
+          if (d.is_doc_gap) {
+
+            addMsg(
+              'note',
+              'Documentation gap detected and reported to developer.'
+            );
+          }
+
+          if (d.escalated) {
+
+              stepVisible.value = false;
+
+              showFeedback.value = false;
+
+              escalated.value = true;
+
+              sessionClosed.value = true;
+
+              sessionStorage.removeItem(
+                'support_session_id'
+              );
+            }
+
+          if (currentMode.value === 'step') {
+
+            stepVisible.value = true;
+
+            stepPct.value = Math.min(
+              90,
+              25 + (currentStep.value * 20)
+            );
+
+            stepLabel.value =
+              awaitingResolution.value
+                ? 'Resolution confirmation'
+                : `Troubleshooting step ${currentStep.value + 1}`;
+          }
+
+          if (awaitingDone.value) {
+
+            addMsg(
+              'note',
+              'Reply DONE after completing the step or STUCK if you need help.'
+            );
+          }
+
+          if (awaitingResolution.value) {
+            showFeedback.value = true;
+          }
+
+          if (currentMode.value === 'resolved') {
+
+            sessionClosed.value = true;
+
+            addMsg(
+              'assistant',
+              'This support session has been completed successfully.'
+            );
+          }
+
+          if (err) {
+            errorText.value = '';
+            attachOpen.value = false;
+          }
+
+        } catch (e) {
+
+          typing.value = false;
+
+          addMsg(
+            'assistant',
+            'Connection error — please try again.',
+            'warn'
+          );
+
+          console.error(e);
+        }
+
+        sending.value = false;
       }
-      sending.value = false;
-    }
 
+  
     async function triggerFallback() {
-      showFeedback.value = false;
-      fallbackCount.value++;
-      addMsg('note', 'Looking for an alternative solution…');
-      await send(true);
-      if (fallbackCount.value >= 2) {
-        escalated.value = true;
-        await fetch(`${API}/session/resolve`, {
-<<<<<<< HEAD
-          credentials: 'include',
-=======
->>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ session_id: sessionId.value, resolved: false }),
-        });
-      }
-    }
 
-    function showResolutionForm() { showResForm.value = true; }
+        showFeedback.value = false;
+
+        fallbackCount.value++;
+
+        await send(true);
+
+        if (fallbackCount.value >= 2) {
+
+          escalated.value = true;
+
+          sessionClosed.value = true;
+
+          sessionStorage.removeItem(
+            'support_session_id'
+          );
+        }
+
+      }
+    
+    function showResolutionForm() {
+        showResForm.value = true;
+    }
 
     async function submitResolved() {
-      showFeedback.value = false;
-      stepPct.value = 100; stepLabel.value = 'Issue resolved ✓';
-      addMsg('note', 'Issue marked as resolved. Thank you!');
-      await fetch(`${API}/session/resolve`, {
-<<<<<<< HEAD
-        credentials: 'include',
-=======
->>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          session_id:      sessionId.value,
-          resolved:        true,
-          issue_type:      issueType.value,
-          resolution_note: resolutionNote.value,
-        }),
+      try {
+        await fetch(`${API}/session/resolve`, {
+          credentials: 'include',
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            session_id: sessionId.value,
+            resolved: true,
+            issue_type: issueType.value,
+            resolution_note: resolutionNote.value
+          })
+        });
+
+        sessionClosed.value = true;
+        sessionStorage.removeItem('support_session_id');
+        showFeedback.value = false;
+
+        addMsg(
+          'assistant',
+          'Great — this session has been marked as resolved.'
+        );
+      } catch {
+        addMsg(
+          'assistant',
+          'Unable to save the resolution right now.'
+        );
+      }
+    }
+
+    async function loadAdminSessions() {
+
+        try {
+
+          const r = await fetch(
+            `${API}/logs`,
+            {
+              credentials:'include'
+            }
+          );
+
+          const data = await r.json();
+
+          adminSessions.value = Array.isArray(data)
+            ? data.filter(
+                s => s.escalated || !s.resolved
+              )
+            : [];
+
+        } catch(e) {
+
+          console.error(e);
+        }
+      }
+
+      const filteredAdminSessions = Vue.computed(() => {
+
+        switch (escFilter.value) {
+
+          case 'escalated':
+
+            return adminSessions.value.filter(
+              s => s.escalated
+            );
+
+          case 'unresolved':
+
+            return adminSessions.value.filter(
+              s => !s.resolved
+            );
+
+          default:
+
+            return adminSessions.value;
+        }
       });
-      sessionClosed.value = true;
-    }
-<<<<<<< HEAD
-    function logout() {
-      // Clear session data
-      sessionId.value = null;
-      messages.value = [];
-      sessionClosed.value = true;
 
-      // Redirect to login page
-      window.location.href = "frontend/login.html";
-    }
-=======
+    async function resolveAdminSession(session) {
 
->>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
-    onMounted(init);
+        try {
+
+          const response = await fetch(
+            `${API}/session/resolve`,
+            {
+              method:'POST',
+              credentials:'include',
+              headers:{
+                'Content-Type':'application/json'
+              },
+              body:JSON.stringify({
+
+                session_id: session.session_id,
+
+                /* MAIN RESOLUTION */
+                resolved: true,
+
+                /* CLEAR ALL ALERT STATES */
+                escalated: false,
+                fallback_used: false,
+
+                /* ADMIN METADATA */
+                issue_type:
+                  session.issue_type ||
+                  'Resolved by admin',
+
+                resolution_note:
+                  'Resolved manually from escalation panel',
+
+                resolved_by_admin: true
+              })
+            }
+          );
+
+          const data = await response.json();
+
+          if (data.error) {
+
+            addMsg(
+              'assistant',
+              data.error,
+              'warn'
+            );
+
+            return;
+          }
+
+          /* REMOVE FROM ADMIN PANEL */
+          adminSessions.value =
+            adminSessions.value.filter(
+              s => s.session_id !== session.session_id
+            );
+
+          /* UPDATE LOCAL STATE */
+          if (
+            sessionId.value === session.session_id
+          ) {
+
+            escalated.value = false;
+
+            showFeedback.value = false;
+
+            awaitingResolution.value = false;
+
+            currentMode.value = 'resolved';
+
+            sessionClosed.value = true;
+          }
+
+          /* SUCCESS MESSAGE */
+          addMsg(
+            'assistant',
+            `Session ${session.session_id} marked as resolved.`,
+            'warn'
+          );
+
+          /* FORCE DASHBOARD SYNC */
+          await loadAdminSessions();
+
+        } catch(e) {
+
+          console.error(e);
+
+          addMsg(
+            'assistant',
+            'Unable to resolve session.',
+            'warn'
+          );
+        }
+      } 
+
+    async function logout() {
+
+      try {
+
+        // Remove session from live sessions list immediately
+        const sid = sessionId.value || sessionStorage.getItem('support_session_id');
+        if (sid) {
+          try {
+            await fetch(`${API}/session/end`, {
+              method: 'POST',
+              credentials: 'include',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ session_id: sid }),
+            });
+          } catch (e) { /* non-blocking */ }
+        }
+
+        await fetch(
+          `${API}/auth/logout`,
+          {
+            method: 'POST',
+            credentials: 'include'
+          }
+        );
+
+        sessionStorage.removeItem(
+          'support_session_id'
+        );
+
+        window.location.href = '/login.html';
+
+      } catch (e) {
+
+        console.error(
+          'Logout failed',
+          e
+        );
+
+        addMsg(
+          'assistant',
+          'Logout failed.',
+          'warn'
+        );
+      }
+    }
+
+   onMounted(async () => {
+      await checkDocStatus();
+      await init();
+      await loadAdminSessions();
+    });
 
     return {
-      messages, inputText, errorText, typing, sending,
-      attachOpen, showFeedback, showResForm, escalated,
-      sessionClosed, stepVisible, stepPct, stepLabel,
-      issueType, resolutionNote, msgContainer, inputEl,
-<<<<<<< HEAD
-      send,triggerFallback,showResolutionForm,submitResolved,
-      autoResize,logout,
-=======
-      send, triggerFallback, showResolutionForm, submitResolved, autoResize,
->>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
+      messages,
+      inputText,
+      errorText,
+      typing,
+      sending,
+      attachOpen,
+      showFeedback,
+      showResForm,
+      escalated,
+      sessionClosed,
+      stepVisible,
+      stepPct,
+      stepLabel,
+      issueType,
+      resolutionNote,
+      fallbackCount,
+      msgContainer,
+      inputEl,
+      send,
+      triggerFallback,
+      showResolutionForm,
+      submitResolved,
+      autoResize,
+      logout,
+      currentMode,
+      currentStep,
+      awaitingDone,
+      awaitingResolution,
+      classifierStage,
+      docLoaded,
+      showEscPanel,
+      adminSessions,
+      escFilter,
+      filteredAdminSessions,
+      loadAdminSessions,
+      resolveAdminSession,
     };
   }
 }).mount('#app');
 </script>
+
 </body>
 </html>

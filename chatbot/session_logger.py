@@ -4,9 +4,8 @@ import uuid
 from collections import Counter
 from datetime import datetime
 
-# Use absolute path based on this file's location
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-LOGS_DIR  = os.path.join(BASE_DIR, "logs")
+LOGS_DIR = os.path.join(BASE_DIR, "logs")
 
 
 def _path(session_id: str) -> str:
@@ -69,21 +68,32 @@ def set_problem_summary(session_id: str, summary: str):
 
 def mark_fallback(session_id: str):
     log = _read(session_id)
-    log["fallback_used"] = True
+    log["fallback_used"]  = True
     log["fallback_count"] = log.get("fallback_count", 0) + 1
     _write(session_id, log)
 
-
 def mark_resolved(session_id: str, resolved: bool, issue_type: str = None, resolution_note: str = None):
+
     log = _read(session_id)
-    log["resolved"]  = resolved
-    log["ended_at"]  = datetime.now().isoformat()
+
+    log["resolved"] = resolved
+    log["ended_at"] = datetime.now().isoformat()
+
+    # IMPORTANT: clear unresolved/escalation flags
+    if resolved:
+
+        log["escalated"] = False
+        log["fallback_used"] = False
+        log["fallback_count"] = 0
+        log["doc_gaps"] = []
+
     if issue_type:
         log["issue_type"] = issue_type
+
     if resolution_note:
         log["resolution_note"] = resolution_note
-    _write(session_id, log)
 
+    _write(session_id, log)
 
 def inject_dev_note(session_id: str, note: str):
     log = _read(session_id)
@@ -99,6 +109,7 @@ def check_and_escalate(session_id: str) -> bool:
     log = _read(session_id)
     if log.get("escalated"):
         return False
+    # Escalate after 1 failed fallback (reduced from 2)
     if log.get("fallback_count", 0) >= 2:
         log["escalated"]    = True
         log["escalated_at"] = datetime.now().isoformat()
@@ -130,27 +141,27 @@ def get_all_sessions() -> list:
         if filename.endswith(".json") and not filename.startswith("ESCALATION"):
             with open(os.path.join(LOGS_DIR, filename), encoding="utf-8") as f:
                 sessions.append(json.load(f))
+    # Sort by started_at descending (latest first)
+    sessions.sort(key=lambda s: s.get("started_at", ""), reverse=True)
     return sessions
 
-<<<<<<< HEAD
+
 def get_live_sessions(active_sessions: dict) -> list:
     result = []
-
     for session_id, sess in active_sessions.items():
+        messages = sess.get("history", [])
         log = {
-            "session_id": session_id,
-            "mode": sess.get("mode"),
+            "session_id":      session_id,
+            "mode":            sess.get("mode"),
             "problem_summary": sess.get("problem_summary"),
-            "fallback_count": sess.get("fallback_count", 0),
-            "messages": sess.get("history", []),
+            "fallback_count":  sess.get("fallback_count", 0),
+            "messages":        messages,
+            "message_count":   len(messages),
         }
-
         result.append(log)
-
     return result
-=======
 
->>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
+
 def get_escalations() -> list:
     result = []
     if not os.path.exists(LOGS_DIR):
@@ -163,7 +174,7 @@ def get_escalations() -> list:
 
 
 def get_analytics() -> dict:
-    sessions = get_all_sessions()
+    sessions      = get_all_sessions()
     total         = len(sessions)
     resolved      = sum(1 for s in sessions if s.get("resolved"))
     escalated     = sum(1 for s in sessions if s.get("escalated"))
@@ -171,8 +182,31 @@ def get_analytics() -> dict:
 
     issue_types = [s["issue_type"] for s in sessions if s.get("issue_type")]
     type_counts = Counter(issue_types)
-    top_issues  = [{"type": k, "count": v} for k, v in type_counts.most_common(5)]
-    recurring   = [i for i in top_issues if i["count"] >= 3]
+
+    # All 8 categories — always present, sorted by count descending
+    all_categories = [
+        "Login / authentication",
+        "Images / media not loading",
+        "Forms not working",
+        "Page layout / display issue",
+        "Performance / slow loading",
+        "Content update problem",
+        "Navigation / menu issue",
+        "Other",
+    ]
+
+    issue_breakdown = []
+    for cat in all_categories:
+        issue_breakdown.append({
+            "type":  cat,
+            "count": type_counts.get(cat, 0),
+        })
+
+    # Sort descending by count
+    issue_breakdown.sort(key=lambda x: x["count"], reverse=True)
+
+    top_issues = issue_breakdown[:5]
+    recurring  = [i for i in issue_breakdown if i["count"] >= 3]
 
     all_gaps = []
     for s in sessions:
@@ -187,6 +221,7 @@ def get_analytics() -> dict:
         "fallback_used":    fallback_used,
         "resolution_rate":  round(resolved / total * 100, 1) if total else 0,
         "top_issue_types":  top_issues,
+        "issue_breakdown":  issue_breakdown,   # full sorted breakdown for analytics tab
         "recurring_issues": recurring,
         "doc_gaps":         all_gaps[:20],
     }

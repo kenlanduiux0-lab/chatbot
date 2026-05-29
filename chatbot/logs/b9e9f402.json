@@ -1,0 +1,40 @@
+{
+  "session_id": "b9e9f402",
+  "started_at": "2026-05-27T11:37:47.232899",
+  "ended_at": null,
+  "resolved": false,
+  "escalated": false,
+  "fallback_used": false,
+  "fallback_count": 0,
+  "issue_type": null,
+  "problem_summary": null,
+  "resolution_note": null,
+  "doc_gaps": [],
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Hello! I am here to help you fix a problem with your website.\n\nLet's start by understanding the issue.\n\nWhich part of the website is affected? For example: login page, images, forms, dashboard, menu, or something else?",
+      "timestamp": "2026-05-27T11:37:47.246298"
+    },
+    {
+      "role": "user",
+      "content": "images",
+      "timestamp": "2026-05-27T11:38:02.007225"
+    },
+    {
+      "role": "assistant",
+      "content": "So the issue is related to images on your website.\n\nWhen did this problem first appear? Was it after an update, has it always been there, or did it just start today?",
+      "timestamp": "2026-05-27T11:38:04.915193"
+    },
+    {
+      "role": "user",
+      "content": "yesterday",
+      "timestamp": "2026-05-27T11:38:13.686698"
+    },
+    {
+      "role": "assistant",
+      "content": "The issue with images started yesterday, so it's a relatively new problem.\n\nWhat exactly do you see on screen? Describe any error message, blank area, or unexpected behaviour when you try to view the images.",
+      "timestamp": "2026-05-27T11:38:16.545951"
+    }
+  ]
+}

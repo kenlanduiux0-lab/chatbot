@@ -1,0 +1,20 @@
+{
+  "session_id": "a2628964",
+  "started_at": "2026-05-28T15:06:29.990195",
+  "ended_at": "2026-05-28T15:44:03.645203",
+  "resolved": true,
+  "escalated": false,
+  "fallback_used": false,
+  "fallback_count": 0,
+  "issue_type": "Resolved by admin",
+  "problem_summary": null,
+  "resolution_note": "Resolved manually from escalation panel",
+  "doc_gaps": [],
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Hello! I am here to help you fix a problem with your website.\n\nLet's start by understanding the issue.\n\nWhich part of the website is affected? For example: login page, images, forms, dashboard, menu, or something else?",
+      "timestamp": "2026-05-28T15:06:30.023791"
+    }
+  ]
+}

@@ -1,17 +1,15 @@
 {
   "session_id": "2cce77f1",
   "started_at": "2026-05-23T15:43:46.236106",
-  "ended_at": "2026-05-23T15:45:17.448783",
-  "resolved": false,
-  "escalated": true,
-  "fallback_used": true,
-  "fallback_count": 3,
-  "issue_type": null,
+  "ended_at": "2026-05-28T15:40:39.002482",
+  "resolved": true,
+  "escalated": false,
+  "fallback_used": false,
+  "fallback_count": 0,
+  "issue_type": "Resolved by admin",
   "problem_summary": null,
-  "resolution_note": null,
-  "doc_gaps": [
-    "Please try a different approach"
-  ],
+  "resolution_note": "Resolved manually from escalation panel",
+  "doc_gaps": [],
   "messages": [
     {
       "role": "assistant",

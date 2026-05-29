@@ -5,533 +5,580 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Developer Dashboard</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.4.21/vue.global.prod.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,500;1,300&family=Overpass+Mono:wght@400;500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500&family=Overpass+Mono:wght@400;500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg:     #0C0B09;
-  --s1:     #161512;
-  --s2:     #1E1D1A;
-  --s3:     #262522;
-  --bdr:    #2E2C28;
-  --bdr2:   #3E3C36;
-  --txt:    #E8E4DC;
-  --txt2:   #8A8678;
-<<<<<<< HEAD
-  --txt3:   #B7B1A3;
-=======
-<<<<<<< HEAD
-  --txt3:   #B7B1A3;
-=======
-<<<<<<< HEAD
-  --txt3:   #B7B1A3;
-=======
-  --txt3:   #4A4840;
->>>>>>> ade5f99e7819942961f5d7b8460046a1e97dbf3d
->>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
->>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
-  --grn:    #5AAF7A;
-  --grn-d:  #3A6B50;
-  --grn-l:  #162010;
-  --red:    #E84A4A;
-  --red-l:  #2A1212;
-  --amb:    #E8B84A;
-  --amb-l:  #2A2010;
-  --blu:    #4A8CE8;
-  --blu-l:  #101824;
-  --r:      10px;
-  --rs:     6px;
+  --bg:#0C0B09; --s1:#161512; --s2:#1E1D1A; --s3:#262522;
+  --bdr:#2E2C28; --bdr2:#3E3C36;
+  --txt:#E8E4DC; --txt2:#8A8678; --txt3:#B7B1A3;
+  --grn:#5AAF7A; --grn-d:#3A6B50; --grn-l:#162010;
+  --red:#E84A4A; --red-l:#2A1212;
+  --amb:#E8B84A; --amb-l:#2A2010;
+  --blu:#4A8CE8; --blu-l:#101824;
+  --r:10px; --rs:6px;
 }
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Jost', sans-serif; background: var(--bg); color: var(--txt); min-height: 100vh; }
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Jost',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh}
+.layout{display:flex;min-height:100vh}
 
-/* Layout */
-.layout { display: flex; min-height: 100vh; }
+/* ── Sidebar ── */
+.sb{width:220px;flex-shrink:0;background:var(--s1);border-right:1px solid var(--bdr);padding:24px 0;position:sticky;top:0;height:100vh;display:flex;flex-direction:column}
+.sb-brand{padding:0 20px 22px;border-bottom:1px solid var(--bdr);margin-bottom:16px}
+.sb-brand-title{font-family:'Fraunces',serif;font-size:18px}
+.sb-brand-sub{font-size:11px;color:var(--txt3);margin-top:3px;font-family:'Overpass Mono',monospace}
+.sb-nav{padding:0 10px;flex:1}
+.sb-sec{font-size:10px;color:var(--txt3);text-transform:uppercase;letter-spacing:.08em;padding:12px 12px 5px;font-family:'Overpass Mono',monospace}
+.sb-link{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--rs);font-size:13px;color:var(--txt2);cursor:pointer;transition:.14s}
+.sb-link:hover{background:var(--s2);color:var(--txt)}
+.sb-link.active{background:var(--grn-l);color:var(--grn)}
+.sb-footer{padding:16px 20px 0;border-top:1px solid var(--bdr)}
+.doc-lbl{font-size:11px;color:var(--txt3);font-family:'Overpass Mono',monospace}
+.doc-name{margin-top:4px;font-size:12px;color:var(--grn);word-break:break-word}
+.main{flex:1;padding:32px 36px;overflow-y:auto}
+.page{display:none}.page.active{display:block}
+.ph{margin-bottom:24px}
+.ph h1{font-family:'Fraunces',serif;font-size:28px;margin-bottom:5px}
+.ph p{color:var(--txt2);font-size:13px}
 
-/* Sidebar */
-.sb {
-  width: 220px; flex-shrink: 0;
-  background: var(--s1);
-  border-right: 1px solid var(--bdr);
-  padding: 24px 0;
-  position: sticky; top: 0; height: 100vh;
-  display: flex; flex-direction: column;
-}
-.sb-brand { padding: 0 20px 22px; border-bottom: 1px solid var(--bdr); margin-bottom: 16px; }
-.sb-brand-title { font-family: 'Fraunces', serif; font-size: 16px; color: var(--txt); letter-spacing: -0.02em; }
-.sb-brand-sub   { font-size: 11px; color: var(--txt3); margin-top: 2px; font-family: 'Overpass Mono', monospace; }
+/* ── Stat cards ── */
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
+.stat-card{background:var(--s1);border:1px solid var(--bdr);border-radius:var(--r);padding:18px}
+.stat-lbl{font-size:11px;color:var(--txt3);margin-bottom:8px}
+.stat-val{font-size:34px;font-family:'Fraunces',serif}
+.c-grn .stat-val{color:var(--grn)}.c-red .stat-val{color:var(--red)}.c-amb .stat-val{color:var(--amb)}.c-blu .stat-val{color:var(--blu)}
 
-.sb-nav { padding: 0 10px; flex: 1; }
-.sb-sec { font-size: 10px; color: var(--txt3); text-transform: uppercase; letter-spacing: .08em; font-family: 'Overpass Mono', monospace; padding: 12px 12px 5px; }
-.sb-link {
-  display: flex; align-items: center; gap: 9px;
-  padding: 8px 12px; border-radius: var(--rs);
-  font-size: 13px; color: var(--txt2);
-  cursor: pointer; transition: all .14s; margin-bottom: 2px;
-  letter-spacing: 0.01em;
-}
-.sb-link:hover { background: var(--s2); color: var(--txt); }
-.sb-link.active { background: var(--grn-l); color: var(--grn); }
-.sb-link svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+/* ── Issue Analytics ── */
+.issue-analytics{margin-bottom:24px}
+.ia-title{font-size:12px;color:var(--txt3);font-family:'Overpass Mono',monospace;text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px}
+.ia-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.ia-card{background:var(--s1);border:1px solid var(--bdr);border-radius:var(--r);padding:14px 16px;position:relative;overflow:hidden;transition:.2s}
+.ia-card:hover{border-color:var(--bdr2)}
+.ia-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.ia-card-name{font-size:12px;color:var(--txt3)}
+.ia-card-count{font-family:'Fraunces',serif;font-size:22px;color:var(--txt)}
+.ia-bar-track{height:3px;background:var(--bdr2);border-radius:2px;overflow:hidden}
+.ia-bar-fill{height:100%;border-radius:2px;transition:width 1s cubic-bezier(.4,0,.2,1)}
 
-.sb-footer { padding: 14px 20px 0; border-top: 1px solid var(--bdr); }
-.doc-lbl  { font-size: 11px; color: var(--txt3); font-family: 'Overpass Mono', monospace; }
-.doc-name { font-size: 12px; color: var(--grn); margin-top: 2px; word-break: break-all; }
+/* ── Section / cards ── */
+.sec,.s-card{background:var(--s1);border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;margin-bottom:14px}
+.s-hdr{padding:13px 16px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:.14s}
+.s-hdr:hover{background:var(--s2)}
+.s-body{display:none;border-top:1px solid var(--bdr)}
+.s-body.open{display:block}
+.msg-list{padding:14px 16px;display:flex;flex-direction:column;gap:8px;max-height:500px;overflow-y:auto}
+.msg-item{display:flex;flex-direction:column;gap:4px}
+.msg-role{font-size:10px;color:var(--txt3);font-family:'Overpass Mono',monospace}
+.msg-bub{padding:9px 12px;border-radius:var(--rs);background:var(--s2);border:1px solid var(--bdr);font-size:13px;white-space:pre-wrap;line-height:1.5}
+.msg-item.user .msg-bub{background:var(--s3)}
+.msg-item.dev_note .msg-bub{background:var(--amb-l);color:var(--amb)}
+.msg-ts{font-size:10px;color:var(--txt3);font-family:'Overpass Mono',monospace;margin-top:2px}
 
-/* Main */
-.main { flex: 1; padding: 32px 36px; overflow-y: auto; }
-.page { display: none; }
-.page.active { display: block; }
+/* ── Buttons ── */
+.btn{padding:8px 14px;border-radius:var(--rs);border:1px solid var(--bdr2);background:var(--s2);color:var(--txt);cursor:pointer;transition:.14s}
+.btn:hover{background:var(--s3)}
+.btn.primary{background:var(--grn-d);border-color:var(--grn-d)}
+.inject-row{display:flex;gap:8px;padding:14px 16px}
+.inject-row input,.session-search-input{width:100%;padding:10px 12px;border-radius:var(--rs);border:1px solid var(--bdr2);background:var(--s2);color:var(--txt);outline:none}
 
-/* Page header */
-.ph { margin-bottom: 26px; }
-.ph h1 { font-family: 'Fraunces', serif; font-size: 26px; color: var(--txt); margin-bottom: 3px; letter-spacing: -0.02em; }
-.ph p  { font-size: 13px; color: var(--txt2); }
+/* ── Session filter tabs ── */
+.session-tabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
+.stab{padding:6px 14px;border-radius:20px;border:1px solid var(--bdr2);background:var(--s1);color:var(--txt2);cursor:pointer;font-size:12px;font-family:'Overpass Mono',monospace;transition:.14s;white-space:nowrap}
+.stab:hover{background:var(--s2);color:var(--txt)}
+.stab.active{background:var(--grn-l);color:var(--grn);border-color:var(--grn-d)}
+.stab-count{display:inline-block;margin-left:5px;background:var(--s3);border-radius:10px;padding:0 6px;font-size:10px}
+.stab.active .stab-count{background:var(--grn-d)}
 
-/* Stat grid */
-.stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 13px; margin-bottom: 24px; }
-@media(max-width:860px){.stat-grid{grid-template-columns:repeat(2,1fr)}}
-.stat-card { background: var(--s1); border: 1px solid var(--bdr); border-radius: var(--r); padding: 16px 18px; }
-.stat-lbl  { font-size: 10px; color: var(--txt3); text-transform: uppercase; letter-spacing: .07em; font-family: 'Overpass Mono', monospace; margin-bottom: 8px; }
-.stat-val  { font-family: 'Fraunces', serif; font-size: 32px; color: var(--txt); letter-spacing: -0.02em; }
-.stat-sub  { font-size: 11px; color: var(--txt3); margin-top: 3px; }
-.stat-card.c-grn .stat-val { color: var(--grn); }
-.stat-card.c-amb .stat-val { color: var(--amb); }
-.stat-card.c-red .stat-val { color: var(--red); }
-.stat-card.c-blu .stat-val { color: var(--blu); }
+/* ── Escalation accordion ── */
+.esc-search{width:100%;padding:10px 12px;border-radius:var(--rs);border:1px solid var(--bdr2);background:var(--s2);color:var(--txt);outline:none;margin-bottom:14px;font-family:'Jost',sans-serif;font-size:13px}
+.esc-card{background:var(--s1);border:1px solid var(--bdr);border-radius:var(--r);margin-bottom:10px;overflow:hidden;transition:.14s}
+.esc-card:hover{border-color:var(--bdr2)}
+.esc-hdr{padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;user-select:none}
+.esc-hdr-id{font-family:'Overpass Mono',monospace;font-size:13px;color:var(--red)}
+.esc-hdr-summary{font-size:12px;color:var(--txt3);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.esc-hdr-meta{font-size:11px;color:var(--txt3);font-family:'Overpass Mono',monospace;flex-shrink:0}
+.esc-chevron{font-size:10px;color:var(--txt3);transition:transform .2s;flex-shrink:0}
+.esc-chevron.open{transform:rotate(180deg)}
+.esc-body{display:none;border-top:1px solid var(--bdr);padding:16px}
+.esc-body.open{display:block}
+.esc-meta-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:14px}
+.esc-meta-item{background:var(--s2);border:1px solid var(--bdr);border-radius:var(--rs);padding:10px 12px}
+.esc-meta-lbl{font-size:10px;color:var(--txt3);font-family:'Overpass Mono',monospace;margin-bottom:3px}
+.esc-meta-val{font-size:13px;color:var(--txt)}
+.esc-conv-title{font-size:10px;color:var(--txt3);font-family:'Overpass Mono',monospace;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
+.esc-conv{display:flex;flex-direction:column;gap:8px;max-height:400px;overflow-y:auto}
 
-/* Section */
-.sec { background: var(--s1); border: 1px solid var(--bdr); border-radius: var(--r); margin-bottom: 16px; overflow: hidden; }
-.sec-hdr { padding: 13px 18px; border-bottom: 1px solid var(--bdr); display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.sec-title { font-size: 13px; font-weight: 500; color: var(--txt); letter-spacing: 0.01em; }
-.sec-meta  { font-size: 12px; color: var(--txt3); }
-.sec-body  { padding: 16px 18px; }
+/* ── Filters (legacy) ── */
+.filters{display:flex;gap:8px;margin-bottom:16px}
+.flt{padding:6px 12px;border-radius:20px;border:1px solid var(--bdr2);background:var(--s1);color:var(--txt2);cursor:pointer}
+.flt.active{background:var(--grn-l);color:var(--grn)}
 
-/* Badges */
-.bdg { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 500; font-family: 'Overpass Mono', monospace; }
-.bdg.grn { background: var(--grn-l); color: var(--grn); }
-.bdg.red { background: var(--red-l); color: var(--red); }
-.bdg.amb { background: var(--amb-l); color: var(--amb); }
-.bdg.blu { background: var(--blu-l); color: var(--blu); }
+/* ── Upload / docs ── */
+.upload-actions{display:flex;gap:12px;margin-top:16px}
+.upload-zone{border:1px dashed var(--bdr2);border-radius:var(--r);padding:34px;text-align:center;cursor:pointer}
+.upload-zone:hover{background:var(--grn-l)}
+.doc-status{margin-top:16px;padding:14px;border-radius:var(--r);background:var(--s2);border:1px solid var(--bdr)}
+.doc-row{margin-bottom:8px;font-size:13px}
 
-/* Bar chart */
-.bar-list { display: flex; flex-direction: column; gap: 10px; }
-.bar-row  { display: flex; align-items: center; gap: 10px; }
-.bar-lbl  { font-size: 13px; color: var(--txt2); min-width: 170px; }
-.bar-track{ flex: 1; height: 4px; background: var(--s3); border-radius: 2px; overflow: hidden; }
-.bar-fill { height: 100%; background: var(--grn); border-radius: 2px; transition: width .6s ease; }
-.bar-cnt  { font-size: 12px; color: var(--txt3); font-family: 'Overpass Mono', monospace; min-width: 26px; text-align: right; }
-.bar-row.rec .bar-fill { background: var(--amb); }
-
-/* Session list */
-.s-card { background: var(--s1); border: 1px solid var(--bdr); border-radius: var(--r); margin-bottom: 10px; overflow: hidden; }
-.s-hdr  { padding: 12px 16px; display: flex; align-items: center; gap: 10px; cursor: pointer; transition: background .14s; flex-wrap: wrap; }
-.s-hdr:hover { background: var(--s2); }
-.s-id   { font-family: 'Overpass Mono', monospace; font-size: 12px; color: var(--txt2); min-width: 68px; }
-.s-bdgs { display: flex; gap: 5px; flex-wrap: wrap; }
-.s-time { font-size: 12px; color: var(--txt3); margin-left: auto; }
-.s-chev { color: var(--txt3); font-size: 13px; transition: transform .2s; }
-.s-body { display: none; border-top: 1px solid var(--bdr); }
-.s-body.open { display: block; }
-.s-meta-row { padding: 10px 16px; border-bottom: 1px solid var(--bdr); display: flex; flex-wrap: wrap; gap: 12px; }
-.s-meta-item { font-size: 12px; color: var(--txt2); }
-.s-meta-item strong { color: var(--txt); margin-right: 4px; }
-
-.msg-list { padding: 12px 16px; display: flex; flex-direction: column; gap: 8px; max-height: 380px; overflow-y: auto; }
-.msg-item { display: flex; flex-direction: column; gap: 2px; }
-.msg-role { font-size: 10px; color: var(--txt3); font-family: 'Overpass Mono', monospace; text-transform: uppercase; letter-spacing: .04em; }
-.msg-bub  { padding: 8px 12px; border-radius: var(--rs); font-size: 13px; color: var(--txt2); background: var(--s2); border: 1px solid var(--bdr); white-space: pre-wrap; word-break: break-word; max-width: 92%; }
-.msg-item.user      .msg-bub { background: var(--s3); }
-.msg-item.dev_note  .msg-bub { background: var(--amb-l); border-color: #3A3010; color: var(--amb); }
-.msg-item.doc_gap   .msg-bub { background: var(--blu-l); border-color: #102030; color: var(--blu); }
-
-/* Gap list */
-.gap-item { padding: 9px 0; border-bottom: 1px solid var(--bdr); display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
-.gap-item:last-child { border-bottom: none; }
-.gap-q  { font-size: 13px; color: var(--txt2); flex: 1; line-height: 1.5; }
-.gap-sid{ font-size: 11px; color: var(--txt3); font-family: 'Overpass Mono', monospace; white-space: nowrap; }
-
-/* Escalation */
-.esc-card { background: var(--red-l); border: 1px solid #3A1A1A; border-radius: var(--r); padding: 14px 16px; margin-bottom: 10px; }
-.esc-title{ font-size: 13px; font-weight: 500; color: var(--red); margin-bottom: 5px; }
-.esc-meta { font-size: 12px; color: var(--txt3); margin-bottom: 6px; font-family: 'Overpass Mono', monospace; }
-.esc-gaps { font-size: 12px; color: var(--txt2); margin-top: 5px; line-height: 1.5; }
-.esc-btns { margin-top: 10px; display: flex; gap: 8px; }
-
-/* Buttons */
-.btn {
-  padding: 7px 15px; border-radius: var(--rs);
-  border: 1px solid var(--bdr2); background: var(--s2);
-  color: var(--txt); font-size: 13px; font-family: 'Jost', sans-serif;
-  cursor: pointer; transition: all .14s; letter-spacing: 0.01em;
-}
-.btn:hover { background: var(--s3); }
-.btn.primary { background: var(--grn-d); border-color: var(--grn-d); color: #fff; }
-.btn.primary:hover { background: var(--grn); border-color: var(--grn); }
-
-/* Upload zone */
-.upload-zone {
-  border: 1px dashed var(--bdr2); border-radius: var(--r);
-  padding: 26px; text-align: center; cursor: pointer; transition: all .14s;
-}
-.upload-zone:hover { border-color: var(--grn-d); background: var(--grn-l); }
-.upload-zone input { display: none; }
-.uz-icon  { font-size: 26px; margin-bottom: 8px; }
-.uz-label { font-size: 13px; color: var(--txt2); margin-bottom: 3px; }
-.uz-sub   { font-size: 12px; color: var(--txt3); }
-
-/* Inject */
-.inject-row { display: flex; gap: 8px; }
-.inject-row input {
-  flex: 1; padding: 8px 12px; border-radius: var(--rs);
-  border: 1px solid var(--bdr2); background: var(--s2);
-  color: var(--txt); font-size: 13px; font-family: 'Jost', sans-serif; outline: none;
-  transition: border-color .14s;
-}
-.inject-row input:focus { border-color: var(--grn-d); }
-
-/* Filters */
-.filters { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
-.flt {
-  padding: 5px 13px; border-radius: 20px; border: 1px solid var(--bdr2);
-  background: var(--s1); font-size: 12px; color: var(--txt2);
-  cursor: pointer; transition: all .14s; font-family: 'Jost', sans-serif;
-}
-.flt:hover { background: var(--s2); color: var(--txt); }
-.flt.active { background: var(--grn-l); border-color: var(--grn-d); color: var(--grn); }
-
-/* Toast */
-.toast {
-  position: fixed; bottom: 22px; right: 22px;
-  background: var(--s2); border: 1px solid var(--bdr2);
-  color: var(--txt); padding: 9px 16px; border-radius: var(--r);
-  font-size: 13px; z-index: 999; display: none;
-  animation: tin .2s ease;
-  font-family: 'Jost', sans-serif;
-}
-.toast.show { display: block; }
-.toast.ok  { border-color: var(--grn-d); color: var(--grn); }
-.toast.err { border-color: #3A1A1A; color: var(--red); }
-@keyframes tin { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:none} }
-
-.empty { font-size: 13px; color: var(--txt3); padding: 4px 0; }
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
-.session-search-container {
-  margin-top: 12px;
+/* ── Badges ── */
+.bdg{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px}
+.bdg.red{background:var(--red-l);color:var(--red)}
+.bdg.grn{background:var(--grn-l);color:var(--grn)}
+.bdg.blu{background:var(--blu-l);color:var(--blu)}
+.bdg.amb{background:var(--amb-l);color:var(--amb)}
+.bdg.purple{
+  background:#241633;
+  color:#C084FC;
 }
 
-.session-search-input {
-  width: 100%;
-  padding: 10px 14px;
-  border-radius: 8px;
-  border: 1px solid var(--bdr2);
-  background: var(--s2);
-  color: var(--txt);
-  font-size: 13px;
-  font-family: 'Jost', sans-serif;
-  outline: none;
-  transition: border-color .14s;
-}
+/* ── Toast ── */
+.toast{position:fixed;right:22px;bottom:22px;background:var(--s2);border:1px solid var(--bdr2);padding:10px 14px;border-radius:var(--r);display:none;z-index:999}
+.toast.show{display:block}
+.empty{color:var(--txt3);font-size:13px}
 
-.session-search-input:focus {
-  border-color: var(--grn-d);
+/* ── Live dot ── */
+.live-dot{width:7px;height:7px;border-radius:50%;background:var(--grn);display:inline-block;animation:livepulse 2s ease-in-out infinite;margin-right:5px}
+@keyframes livepulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
+
+/* ── Animations ── */
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.ia-card{animation:fadeIn .3s ease both}
+
+@media(max-width:860px){
+  .layout{flex-direction:column}
+  .sb{width:100%;height:auto;position:relative}
+  .stat-grid{grid-template-columns:repeat(2,1fr)}
+  .ia-grid{grid-template-columns:1fr}
+  .esc-meta-grid{grid-template-columns:1fr}
 }
-<<<<<<< HEAD
-=======
-=======
->>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
->>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
 </style>
 </head>
 <body>
 <div id="app">
-  <!-- Toast -->
-  <div class="toast" :class="[toastShow ? 'show' : '', toastType]">{{ toastMsg }}</div>
 
-  <div class="layout">
-    <!-- Sidebar -->
-    <div class="sb">
-      <div class="sb-brand">
-        <div class="sb-brand-title">Dev Dashboard</div>
-        <div class="sb-brand-sub">chatbot control</div>
-      </div>
-      <div class="sb-nav">
-        <div class="sb-sec">Overview</div>
-        <div class="sb-link" :class="{active: page==='analytics'}" @click="page='analytics'">
-          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Analytics
-        </div>
-        <div class="sb-link" :class="{active: page==='escalations'}" @click="page='escalations'">
-          <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Escalations
-          <span class="bdg red" v-if="escalations.length" style="margin-left:auto">{{ escalations.length }}</span>
-        </div>
-        <div class="sb-sec">Sessions</div>
-        <div class="sb-link" :class="{active: page==='sessions'}" @click="page='sessions'">
-          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>All sessions
-        </div>
-        <div class="sb-link" :class="{active: page==='gaps'}" @click="page='gaps'">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Doc gaps
-        </div>
-        <div class="sb-link" :class="{active: page==='live'}" @click="page='live'; loadLive()">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Live sessions
-        </div>
-        <div class="sb-sec">Documentation</div>
-        <div class="sb-link" :class="{active: page==='docs'}" @click="page='docs'">
-          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Upload / Update
-        </div>
-      </div>
-<<<<<<< HEAD
-     <div class="sb-footer">
-        <div class="doc-lbl">Current doc</div>
-        <div class="doc-name">{{ uploadedFileName || docMeta.filename || 'none' }}</div>
+<div class="toast" :class="{show:toastShow}">{{ toastMsg }}</div>
 
-        <!-- Logout Button -->
-        <button
-          class="btn"
-          style="width:100%; margin-top:14px;"
-          @click="logout"
-  >
-          Logout
-       </button>
-=======
-      <div class="sb-footer">
-        <div class="doc-lbl">Current doc</div>
-<<<<<<< HEAD
-        <div class="doc-name"> {{ uploadedFileName || docMeta.filename || 'none' }}</div>
-=======
-<<<<<<< HEAD
-        <div class="doc-name"> {{ uploadedFileName || docMeta.filename || 'none' }}</div>
-=======
-        <div class="doc-name">{{ docMeta.filename || 'none' }}</div>
->>>>>>> ade5f99e7819942961f5d7b8460046a1e97dbf3d
->>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
->>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
+<div class="layout">
+
+<!-- ── Sidebar ── -->
+<aside class="sb">
+  <div class="sb-brand">
+    <div class="sb-brand-title">Developer Dashboard</div>
+    <div class="sb-brand-sub">live monitoring + analytics</div>
+  </div>
+  <div class="sb-nav">
+    <div class="sb-sec">Overview</div>
+    <div class="sb-link" :class="{active:page==='analytics'}" @click="page='analytics';loadAnalytics()">Analytics</div>
+    <div class="sb-link" :class="{active:page==='sessions'}" @click="page='sessions';loadSessions()">All Sessions</div>
+    <div class="sb-link" :class="{active:page==='escalations'}" @click="page='escalations';loadEscalations()">Escalations</div>
+    <div class="sb-link" :class="{active:page==='live'}" @click="page='live';loadLiveSessions()">Live Sessions</div>
+    <div class="sb-link" :class="{active:page==='docgaps'}" @click="page='docgaps';loadAnalytics()"> Documentation Gaps</div>
+    <div class="sb-link" :class="{active:page==='docs'}" @click="page='docs';loadDocStatus()">Documentation</div>
+  </div>
+  <div class="sb-footer">
+    <div class="doc-lbl">Current documentation</div>
+    <div class="doc-name">{{ docMeta.filename || 'No PDF uploaded' }}</div>
+    <button class="btn" style="width:100%;margin-top:14px" @click="logout">Logout</button>
+  </div>
+</aside>
+
+<main class="main">
+
+<!-- ══════════════════════════════════════════════════
+     ANALYTICS TAB
+══════════════════════════════════════════════════ -->
+<section class="page" :class="{active:page==='analytics'}">
+  <div class="ph">
+    <h1>Analytics</h1>
+    <p>Realtime support metrics</p>
+  </div>
+
+  <!-- Summary stat cards -->
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="stat-lbl">Total Sessions</div>
+      <div class="stat-val">{{ analytics.total_sessions || 0 }}</div>
+    </div>
+    <div class="stat-card c-grn">
+      <div class="stat-lbl">Resolution Rate</div>
+      <div class="stat-val">{{ analytics.resolution_rate || 0 }}%</div>
+    </div>
+    <div class="stat-card c-amb">
+      <div class="stat-lbl">Fallback Used</div>
+      <div class="stat-val">{{ analytics.fallback_used || 0 }}</div>
+    </div>
+    <div class="stat-card c-red">
+      <div class="stat-lbl">Escalations</div>
+      <div class="stat-val">{{ analytics.escalated || 0 }}</div>
+    </div>
+  </div>
+
+  <!-- Issue Category Analytics -->
+  <div class="issue-analytics">
+    <div class="ia-title">Issue Categories — by occurrence</div>
+
+    <div class="ia-grid" v-if="analytics.issue_breakdown && analytics.issue_breakdown.length">
+      <div
+        class="ia-card"
+        v-for="(issue, idx) in analytics.issue_breakdown"
+        :key="issue.type"
+        :style="{'animation-delay': idx * 0.06 + 's'}"
+      >
+        <div class="ia-card-top">
+          <div class="ia-card-name">{{ issue.type }}</div>
+          <div class="ia-card-count">{{ issue.count }}</div>
+        </div>
+        <div class="ia-bar-track">
+          <div
+            class="ia-bar-fill"
+            :style="{
+              width: issueBarWidth(issue.count) + '%',
+              background: issueBarColor(idx)
+            }"
+          ></div>
+        </div>
       </div>
     </div>
 
-    <!-- Main -->
-    <div class="main">
-
-      <!-- Analytics -->
-      <div class="page" :class="{active: page==='analytics'}">
-        <div class="ph"><h1>Analytics</h1><p>Aggregate view across all support sessions</p></div>
-        <div class="stat-grid">
-          <div class="stat-card"><div class="stat-lbl">Total sessions</div><div class="stat-val">{{ analytics.total_sessions ?? '—' }}</div><div class="stat-sub">all time</div></div>
-          <div class="stat-card c-grn"><div class="stat-lbl">Resolution rate</div><div class="stat-val">{{ analytics.total_sessions ? analytics.resolution_rate + '%' : '—' }}</div><div class="stat-sub">resolved without dev help</div></div>
-          <div class="stat-card c-amb"><div class="stat-lbl">Used fallback</div><div class="stat-val">{{ analytics.fallback_used ?? '—' }}</div><div class="stat-sub">needed alternative steps</div></div>
-          <div class="stat-card c-red"><div class="stat-lbl">Escalated</div><div class="stat-val">{{ analytics.escalated ?? '—' }}</div><div class="stat-sub">developer was alerted</div></div>
-        </div>
-        <div class="sec">
-<<<<<<< HEAD
-          <div class="sec-hdr"><div class="sec-title">Top issue types</div></div>
-=======
-<<<<<<< HEAD
-          <div class="sec-hdr"><div class="sec-title">Top issue types</div></div>
-=======
-<<<<<<< HEAD
-          <div class="sec-hdr"><div class="sec-title">Top issue types</div></div>
-=======
-          <div class="sec-hdr"><div class="sec-title">Top issue types</div><div class="sec-meta">Amber = recurring (3+)</div></div>
->>>>>>> ade5f99e7819942961f5d7b8460046a1e97dbf3d
->>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
->>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
-          <div class="sec-body">
-            <div class="bar-list" v-if="analytics.top_issue_types && analytics.top_issue_types.length">
-              <div class="bar-row" :class="{rec: item.count >= 3}" v-for="item in analytics.top_issue_types" :key="item.type">
-                <div class="bar-lbl">{{ item.type }}</div>
-                <div class="bar-track"><div class="bar-fill" :style="{width: Math.round(item.count/maxIssueCount*100)+'%'}"></div></div>
-                <div class="bar-cnt">{{ item.count }}</div>
-                <span class="bdg amb" v-if="item.count >= 3">recurring</span>
-              </div>
-            </div>
-            <div class="empty" v-else>No issue types recorded yet.</div>
-          </div>
-        </div>
-        <div class="sec">
-          <div class="sec-hdr"><div class="sec-title">Recurring issues (3+ times)</div></div>
-          <div class="sec-body">
-            <template v-if="analytics.recurring_issues && analytics.recurring_issues.length">
-              <div class="gap-item" v-for="r in analytics.recurring_issues" :key="r.type">
-                <div class="gap-q">{{ r.type }}</div>
-                <div class="gap-sid">{{ r.count }}× — update your documentation</div>
-              </div>
-            </template>
-            <div class="empty" v-else>No recurring issues detected. ✓</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Escalations -->
-      <div class="page" :class="{active: page==='escalations'}">
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
-        <div class="ph">
-          <h1>Escalations</h1>
-          <p>Sessions where the admin could not resolve the issue</p>
-          <div class="session-search-container">
-            <input
-              type="text"
-              v-model="escalationSearch"
-              placeholder="Search by Session ID..."
-              class="session-search-input"
-            />
-         </div>
-        </div>
-          <div v-if="filteredEscalations.length">
-            <div class="esc-card" v-for="e in filteredEscalations" :key="e.session_id">
-<<<<<<< HEAD
-=======
-=======
-        <div class="ph"><h1>Escalations</h1><p>Sessions where the admin could not resolve the issue</p></div>
-        <div v-if="escalations.length">
-          <div class="esc-card" v-for="e in escalations" :key="e.session_id">
->>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
->>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
-            <div class="esc-title">Session #{{ e.session_id }} — Escalated</div>
-            <div class="esc-meta">{{ fmtDate(e.escalated_at) }} · {{ e.fallback_count }} failed attempt(s) · {{ e.message_count }} messages</div>
-            <div class="esc-gaps" v-if="e.problem_summary">Problem: {{ e.problem_summary }}</div>
-            <div class="esc-gaps" v-if="e.doc_gaps && e.doc_gaps.length" style="margin-top:5px;">Doc gaps: {{ e.doc_gaps.map(g=>`"${g}"`).join(', ') }}</div>
-            <div class="esc-btns">
-              <button class="btn" @click="page='sessions'">View session</button>
-              <button class="btn primary" @click="page='docs'">Update doc</button>
-            </div>
-          </div>
-        </div>
-        <div class="empty" v-else>No escalations. ✓</div>
-      </div>
-
-      <!-- Sessions -->
-      <div class="page" :class="{active: page==='sessions'}">
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
-        <div class="ph"><h1>All sessions</h1><p>Full conversation logs with metadata</p>
-        <div class="session-search-container">
-        <input
-            type="text"
-            v-model="allSessionSearch"
-            placeholder="Search by Session ID..."
-            class="session-search-input"
-            />
-        </div>
-        </div>
-<<<<<<< HEAD
-=======
-=======
-        <div class="ph"><h1>All sessions</h1><p>Full conversation logs with metadata</p></div>
->>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
->>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
-        <div class="filters">
-          <button class="flt" :class="{active: sessFilter==='all'}"        @click="sessFilter='all'">All</button>
-          <button class="flt" :class="{active: sessFilter==='resolved'}"   @click="sessFilter='resolved'">Resolved</button>
-          <button class="flt" :class="{active: sessFilter==='unresolved'}" @click="sessFilter='unresolved'">Unresolved</button>
-          <button class="flt" :class="{active: sessFilter==='escalated'}"  @click="sessFilter='escalated'">Escalated</button>
-          <button class="flt" :class="{active: sessFilter==='fallback'}"   @click="sessFilter='fallback'">Fallback used</button>
-          <button class="flt" :class="{active: sessFilter==='gaps'}"       @click="sessFilter='gaps'">Has doc gaps</button>
-        </div>
-        <div v-if="filteredSessions.length">
-          <div class="s-card" v-for="(s, i) in filteredSessions" :key="s.session_id">
-            <div class="s-hdr" @click="toggleSession(i)">
-              <div class="s-id">#{{ s.session_id }}</div>
-              <div class="s-bdgs">
-                <span class="bdg" :class="s.resolved ? 'grn' : 'red'">{{ s.resolved ? 'resolved' : 'unresolved' }}</span>
-                <span class="bdg red" v-if="s.escalated">escalated</span>
-                <span class="bdg amb" v-if="s.fallback_used">fallback</span>
-                <span class="bdg blu" v-if="s.doc_gaps && s.doc_gaps.length">doc gaps</span>
-              </div>
-              <div class="s-time">{{ fmtDate(s.started_at) }} · {{ (s.messages||[]).filter(m=>m.role!=='dev_note').length }} msgs</div>
-              <div class="s-chev" :style="{ transform: openSessions.has(i) ? 'rotate(-90deg)' : '' }">▾</div>
-            </div>
-            <div class="s-body" :class="{ open: openSessions.has(i) }">
-              <div class="s-meta-row" v-if="s.issue_type || s.resolution_note || s.problem_summary">
-                <div class="s-meta-item" v-if="s.issue_type"><strong>Issue type</strong>{{ s.issue_type }}</div>
-                <div class="s-meta-item" v-if="s.resolution_note"><strong>Fixed by</strong>{{ s.resolution_note }}</div>
-                <div class="s-meta-item" v-if="s.problem_summary"><strong>Summary</strong>{{ s.problem_summary }}</div>
-              </div>
-              <div class="msg-list">
-                <div class="msg-item" :class="m.role" v-for="(m, j) in s.messages" :key="j">
-                  <div class="msg-role">{{ m.role }}</div>
-                  <div class="msg-bub">{{ m.content }}</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="empty" v-else>No sessions match this filter.</div>
-      </div>
-
-      <!-- Doc gaps -->
-      <div class="page" :class="{active: page==='gaps'}">
-        <div class="ph"><h1>Documentation gaps</h1><p>Questions the chatbot could not answer — add these to your PDF</p></div>
-        <div class="sec">
-          <div class="sec-hdr"><div class="sec-title">Unanswered questions</div><button class="btn" @click="loadAll">Refresh</button></div>
-          <div class="sec-body">
-            <template v-if="analytics.doc_gaps && analytics.doc_gaps.length">
-              <div class="gap-item" v-for="(g, i) in analytics.doc_gaps" :key="i">
-                <div class="gap-q">{{ g.question }}</div>
-                <div class="gap-sid">#{{ g.session_id }}</div>
-              </div>
-            </template>
-            <div class="empty" v-else>No documentation gaps recorded. ✓</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Live sessions -->
-      <div class="page" :class="{active: page==='live'}">
-<<<<<<< HEAD
-        
-
-  <div class="ph">
-    <h1>Live Sessions</h1>
-    <p>Monitor active conversations in real time</p>
+    <div class="empty" v-else>No issue data yet — sessions will populate this once resolved.</div>
   </div>
 
-  <div v-if="liveSessions.length">
+  <!-- Recurring issues -->
+  <div class="sec">
+    <div class="msg-list">
+      <div class="msg-role">Recurring Issues (3+ occurrences)</div>
+      <div v-if="analytics.recurring_issues && analytics.recurring_issues.length">
+        <div class="msg-bub" v-for="(issue,index) in analytics.recurring_issues" :key="index">
+          {{ issue.type }} — {{ issue.count }} occurrences
+        </div>
+      </div>
+      <div class="empty" v-else>No recurring issues detected</div>
+    </div>
+  </div>
 
-    <div class="s-card"
-         v-for="(s, i) in liveSessions"
-         :key="s.session_id">
+</section>
 
-      <div class="s-hdr" @click="toggleLive(i)">
+<!-- ══════════════════════════════════════════════════
+     ALL SESSIONS TAB
+══════════════════════════════════════════════════ -->
+<section class="page" :class="{active:page==='sessions'}">
+  <div class="ph">
+    <h1>All Sessions</h1>
+    <p>Conversation logs — latest first</p>
+  </div>
 
-        <div class="s-id">#{{ s.session_id }}</div>
+  <!-- Filter tabs -->
+  <div class="session-tabs">
+    <div
+      class="stab"
+      :class="{active: sessionFilter === tab.key}"
+      v-for="tab in sessionTabs"
+      :key="tab.key"
+      @click="sessionFilter = tab.key; openSessions = new Set()"
+    >
+      {{ tab.label }}
+      <span class="stab-count">{{ tab.count }}</span>
+    </div>
+  </div>
 
-        <div class="s-bdgs">
-          <span class="bdg blu">LIVE</span>
+  <!-- Search -->
+  <input class="session-search-input" v-model="search" placeholder="Search by session ID or summary…" style="margin-bottom:14px">
 
-          <span class="bdg amb"
-                v-if="s.fallback_count">
-            fallback {{ s.fallback_count }}
-          </span>
+  <div v-if="filteredSessions.length">
+    <div class="s-card" v-for="(s,i) in filteredSessions" :key="s.session_id">
+      <div class="s-hdr" @click="toggleSession(i)">
+        <div style="font-family:'Overpass Mono',monospace;font-size:12px">#{{ s.session_id }}</div>
+        <span class="bdg grn" v-if="s.resolved">resolved</span>
+        <span class="bdg purple" v-if="!s.resolved && (sessionFilter === 'unresolved' || sessionFilter === 'total')">unresolved</span>
+        <span class="bdg red" v-if="s.escalated">escalated</span>
+        <span class="bdg amb" v-if="s.fallback_used">fallback</span>
+        <span class="bdg blu" v-if="s.doc_gaps && s.doc_gaps.length">doc gap</span>
+        <div style="margin-left:auto;font-size:11px;color:var(--txt3)">{{ fmtDate(s.started_at) }}</div>
+      </div>
+      <div class="s-body" :class="{open:openSessions.has(i)}">
+        <div class="msg-list">
+          <div class="msg-role">Problem Summary</div>
+          <div class="msg-bub">{{ s.problem_summary || 'No summary available' }}</div>
+          <div class="msg-role">Issue Type</div>
+          <div class="msg-bub">{{ s.issue_type || '—' }}</div>
+          <div class="msg-role">Fallback Count</div>
+          <div class="msg-bub">{{ s.fallback_count || 0 }}</div>
+          <template v-if="s.doc_gaps && s.doc_gaps.length">
+            <div class="msg-role">Documentation Gaps</div>
+            <div class="msg-bub"><div v-for="(gap,gi) in s.doc_gaps" :key="gi">• {{ gap }}</div></div>
+          </template>
+          <template v-if="s.resolution_note">
+            <div class="msg-role">Resolution Note</div>
+            <div class="msg-bub">{{ s.resolution_note }}</div>
+          </template>
+          <div class="msg-item" :class="m.role" v-for="(m,j) in s.messages" :key="j">
+            <div class="msg-role">{{ m.role }} <span style="margin-left:6px;font-size:9px">{{ fmtDate(m.timestamp) }}</span></div>
+            <div class="msg-bub">{{ m.content }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="empty" v-else>No sessions match this filter</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     ESCALATIONS TAB
+══════════════════════════════════════════════════ -->
+<section class="page" :class="{active:page==='escalations'}">
+  <div class="ph">
+    <h1>Escalations</h1>
+    <p>{{ escalations.length }} escalated session{{ escalations.length !== 1 ? 's' : '' }} — latest first</p>
+  </div>
+
+  <!-- Search -->
+  <input class="esc-search" v-model="escSearch" placeholder="Search by session ID or problem…">
+
+  <div v-if="filteredEscalations.length">
+    <div class="esc-card" v-for="(e, ei) in filteredEscalations" :key="e.session_id">
+
+      <!-- Accordion header -->
+      <div class="esc-hdr" @click="toggleEsc(ei)">
+        <span class="bdg red" style="flex-shrink:0">escalated</span>
+        <span class="esc-hdr-id">#{{ e.session_id }}</span>
+        <span class="esc-hdr-summary">{{ e.problem_summary || 'No summary recorded' }}</span>
+        <span class="esc-hdr-meta">{{ fmtDate(e.escalated_at) }}</span>
+        <span class="esc-chevron" :class="{open: openEsc.has(ei)}">▼</span>
+      </div>
+
+      <!-- Accordion body -->
+      <div class="esc-body" :class="{open: openEsc.has(ei)}">
+
+        <!-- Metadata grid -->
+        <div class="esc-meta-grid">
+          <div class="esc-meta-item">
+            <div class="esc-meta-lbl">Session ID</div>
+            <div class="esc-meta-val" style="font-family:'Overpass Mono',monospace">{{ e.session_id }}</div>
+          </div>
+          <div class="esc-meta-item">
+            <div class="esc-meta-lbl">Escalated At</div>
+            <div class="esc-meta-val">{{ fmtDate(e.escalated_at) }}</div>
+          </div>
+          <div class="esc-meta-item">
+            <div class="esc-meta-lbl">Fallback Count</div>
+            <div class="esc-meta-val">{{ e.fallback_count || 0 }}</div>
+          </div>
+          <div class="esc-meta-item">
+            <div class="esc-meta-lbl">Message Count</div>
+            <div class="esc-meta-val">{{ e.message_count || 0 }}</div>
+          </div>
+          <div class="esc-meta-item" style="grid-column:1/-1" v-if="e.problem_summary">
+            <div class="esc-meta-lbl">Problem Summary</div>
+            <div class="esc-meta-val">{{ e.problem_summary }}</div>
+          </div>
+          <div class="esc-meta-item" style="grid-column:1/-1" v-if="e.doc_gaps && e.doc_gaps.length">
+            <div class="esc-meta-lbl">Documentation Gaps</div>
+            <div class="esc-meta-val"><div v-for="(gap,gi) in e.doc_gaps" :key="gi">• {{ gap }}</div></div>
+          </div>
         </div>
 
-        <div class="s-time">
-          {{ (s.messages || []).length }} msgs
+        <!-- Full conversation from session log -->
+        <div v-if="escalationSessions[e.session_id]">
+          <div class="esc-conv-title">Full Conversation</div>
+          <div class="esc-conv">
+            <div class="msg-item" :class="m.role" v-for="(m,mi) in escalationSessions[e.session_id].messages" :key="mi">
+              <div class="msg-role">{{ m.role }} <span style="margin-left:6px;font-size:9px">{{ fmtDate(m.timestamp) }}</span></div>
+              <div class="msg-bub">{{ m.content }}</div>
+            </div>
+          </div>
+        </div>
+        <div class="empty" v-else style="font-size:12px">Conversation log not available for this session</div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="empty" v-else-if="!escalations.length">No escalations found</div>
+  <div class="empty" v-else>No escalations match your search</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     LIVE SESSIONS TAB
+══════════════════════════════════════════════════ -->
+<section class="page" :class="{active:page==='live'}">
+  <div class="ph">
+    <h1>Live Sessions</h1>
+    <p><span class="live-dot"></span>Auto-refreshing every 5s · {{ liveSessions.length }} active</p>
+  </div>
+
+  <div class="s-card" v-for="(s,i) in liveSessions" :key="s.session_id">
+    <div class="s-hdr" @click="toggleLive(i)">
+      <div style="font-family:'Overpass Mono',monospace;font-size:12px">#{{ s.session_id }}</div>
+      <span class="bdg blu" v-if="s.mode==='step' || s.mode==='classify'">{{ s.mode }}</span>
+      <span class="bdg amb" v-if="s.mode==='escalated'">escalated</span>
+      <span class="bdg grn" v-if="s.mode==='resolved'">resolved</span>
+      <div style="margin-left:auto;font-size:11px;color:var(--txt3)">{{ s.message_count }} msgs</div>
+    </div>
+    <div class="s-body" :class="{open:openLive.has(i)}">
+      <div class="msg-list">
+        <div class="msg-role">Problem Summary</div>
+        <div class="msg-bub">{{ s.problem_summary || 'No summary available' }}</div>
+        <div class="msg-role">Fallback Count</div>
+        <div class="msg-bub">{{ s.fallback_count || 0 }}</div>
+        <div class="msg-item" :class="m.role" v-for="(m,j) in s.messages" :key="j">
+          <div class="msg-role">{{ m.role }}</div>
+          <div class="msg-bub">{{ m.content }}</div>
+        </div>
+      </div>
+      <div class="inject-row">
+        <input type="text" v-model="s.injectText" placeholder="Inject silent developer note">
+        <button class="btn primary" @click="injectNote(s)">Inject</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="empty" v-if="!liveSessions.length">No active sessions</div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════
+     DOCUMENTATION GAPS TAB
+══════════════════════════════════════════════════ -->
+
+
+<section class="page" :class="{active:page==='docgaps'}">
+
+  <div class="ph">
+    <h1>Documentation Gaps</h1>
+    <p>Questions not properly covered by current documentation</p>
+  </div>
+
+  <!-- Summary -->
+  <div class="stat-grid" style="margin-bottom:18px">
+
+    <div class="stat-card c-amb">
+      <div class="stat-lbl">Total Gaps</div>
+      <div class="stat-val">
+        {{ analytics.doc_gaps ? analytics.doc_gaps.length : 0 }}
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-lbl">Current Documentation</div>
+      <div class="stat-val" style="font-size:18px">
+        {{ docMeta.filename || 'No PDF' }}
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Gap Sessions -->
+  <div v-if="docGapSessions.length">
+
+    <div
+      class="s-card"
+      v-for="(s,i) in docGapSessions"
+      :key="s.session_id"
+    >
+
+      <!-- Header -->
+      <div class="s-hdr" @click="toggleDocGap(i)">
+
+        <div style="
+          font-family:'Overpass Mono',monospace;
+          font-size:12px
+        ">
+          #{{ s.session_id }}
         </div>
 
-        <div class="s-chev"
-             :style="{ transform: openLive.has(i) ? 'rotate(-90deg)' : '' }">
-          ▾
+        <span class="bdg amb">DOC GAP</span>
+
+        <span
+          class="bdg purple"
+          v-if="!s.resolved"
+        >
+          unresolved
+        </span>
+
+        <span
+          class="bdg grn"
+          v-if="s.resolved"
+        >
+          resolved
+        </span>
+
+        <span
+          class="bdg red"
+          v-if="s.escalated"
+        >
+          escalated
+        </span>
+
+        <div style="
+          margin-left:auto;
+          font-size:11px;
+          color:var(--txt3)
+        ">
+          {{ fmtDate(s.started_at) }}
         </div>
 
       </div>
 
-      <div class="s-body" :class="{ open: openLive.has(i) }">
+      <!-- Body -->
+      <div
+        class="s-body"
+        :class="{open:openDocGaps.has(i)}"
+      >
 
         <div class="msg-list">
 
-          <div class="msg-item"
-               :class="m.role"
-               v-for="(m, mi) in s.messages"
-               :key="mi">
+          <!-- Summary -->
+          <div class="msg-role">Problem Summary</div>
+
+          <div class="msg-bub">
+            {{ s.problem_summary || 'No summary available' }}
+          </div>
+
+          <!-- Issue Type -->
+          <div class="msg-role">Issue Type</div>
+
+          <div class="msg-bub">
+            {{ s.issue_type || '—' }}
+          </div>
+
+          <!-- Documentation Gaps -->
+          <div
+            class="msg-role"
+            v-if="s.doc_gaps && s.doc_gaps.length"
+          >
+            Documentation Gaps
+          </div>
+
+          <div
+            class="msg-bub"
+            v-if="s.doc_gaps && s.doc_gaps.length"
+          >
+            <div
+              v-for="(gap,gi) in s.doc_gaps"
+              :key="gi"
+              style="margin-bottom:8px"
+            >
+              • {{ gap }}
+            </div>
+          </div>
+
+          <!-- Full Conversation -->
+          <div
+            class="msg-item"
+            :class="m.role"
+            v-for="(m,j) in s.messages"
+            :key="j"
+          >
 
             <div class="msg-role">
               {{ m.role }}
+
+              <span style="
+                margin-left:6px;
+                font-size:9px
+              ">
+                {{ fmtDate(m.timestamp) }}
+              </span>
             </div>
 
             <div class="msg-bub">
@@ -542,517 +589,405 @@ body { font-family: 'Jost', sans-serif; background: var(--bg); color: var(--txt)
 
         </div>
 
-        <div class="sec-body">
-
-          <div class="inject-row">
-
-            <input
-              type="text"
-              v-model="s.injectText"
-              placeholder="Inject developer guidance..."
-            />
-
-            <button class="btn primary"
-                    @click="injectLive(s)">
-              Inject
-            </button>
-
-          </div>
-
-        </div>
-
       </div>
 
     </div>
 
   </div>
 
- <div class="empty" v-else>
-  No active live sessions.
+  <div class="empty" v-else>
+    No documentation gaps detected
+  </div>
+
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     DOCUMENTATION TAB
+══════════════════════════════════════════════════ -->
+<section class="page" :class="{active:page==='docs'}">
+  <div class="ph">
+    <h1>Documentation</h1>
+    <p>Upload or hot reload PDF documentation</p>
+  </div>
+
+  <div class="sec">
+    <div class="upload-zone" @click="$refs.file.click()">
+      <input type="file" ref="file" style="display:none" accept=".pdf" @change="uploadPDF">
+      <div style="font-size:26px;margin-bottom:10px">📄</div>
+      <div>Click to upload PDF documentation</div>
+    </div>
+
+    <div class="upload-actions">
+      <button class="btn primary" @click="$refs.hotReloadFile.click()">
+        Hot Reload Documentation
+      </button>
+      <input type="file" ref="hotReloadFile" style="display:none" accept=".pdf" @change="hotReloadPDF">
+      <button class="btn" @click="loadDocStatus">Refresh Status</button>
+    </div>
+
+    <div class="doc-status">
+      <div class="doc-row">Loaded: {{ docStatus.loaded ? 'YES' : 'NO' }}</div>
+      <div class="doc-row" v-if="docMeta.filename">Filename: {{ docMeta.filename }}</div>
+      <div class="doc-row" v-if="docMeta.page_count">Pages: {{ docMeta.page_count }}</div>
+      <div class="doc-row" v-if="docMeta.char_count">Characters: {{ docMeta.char_count }}</div>
+      <div class="doc-row" v-if="docMeta.uploaded_at">Uploaded: {{ fmtDate(docMeta.uploaded_at) }}</div>
+    </div>
+  </div>
+</section>
+
+</main>
 </div>
-
-</div> <!-- CLOSE LIVE PAGE -->
-
-<!-- Docs -->
-<div class="page" :class="{active: page==='docs'}">
-=======
-        <div class="ph"><h1>Live sessions</h1><p>Inject a silent hint into an active session</p></div>
-        <div v-if="liveSessions.length">
-          <div class="sec" v-for="s in liveSessions" :key="s.session_id" style="margin-bottom:14px">
-            <div class="sec-hdr">
-              <div class="sec-title">Session #{{ s.session_id }}</div>
-              <div style="display:flex;gap:6px">
-                <span class="bdg blu">{{ s.mode }} mode</span>
-                <span class="bdg" :class="s.fallback_count > 0 ? 'amb' : 'grn'">{{ s.message_count }} msgs</span>
-              </div>
-            </div>
-            <div class="sec-body">
-              <p style="font-size:13px;color:var(--txt2);margin-bottom:10px;line-height:1.6">Type a hint — the chatbot uses it silently. The admin will not see it.</p>
-              <div class="inject-row">
-                <input type="text" v-model="noteInputs[s.session_id]" placeholder="e.g. Admin is likely on the staging server, not production…">
-                <button class="btn primary" @click="injectNote(s.session_id)">Inject</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="empty" v-else>No active sessions right now.</div>
-      </div>
-
-      <!-- Docs -->
-      <div class="page" :class="{active: page==='docs'}">
->>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
-        <div class="ph"><h1>Documentation</h1><p>Upload and manage the PDF that powers the chatbot</p></div>
-        <div class="sec" style="margin-bottom:16px">
-          <div class="sec-hdr"><div class="sec-title">Current document</div></div>
-          <div class="sec-body">
-            <template v-if="docMeta.filename">
-              <div class="gap-item"><div class="gap-q">Filename</div><div class="gap-sid">{{ docMeta.filename }}</div></div>
-              <div class="gap-item"><div class="gap-q">Pages</div><div class="gap-sid">{{ docMeta.page_count }}</div></div>
-              <div class="gap-item"><div class="gap-q">Uploaded</div><div class="gap-sid">{{ fmtDate(docMeta.uploaded_at) }}</div></div>
-              <div class="gap-item"><div class="gap-q">Characters</div><div class="gap-sid">{{ (docMeta.char_count||0).toLocaleString() }}</div></div>
-            </template>
-            <div class="empty" v-else>No documentation uploaded yet.</div>
-          </div>
-        </div>
-        <div class="sec" style="margin-bottom:16px">
-          <div class="sec-hdr"><div class="sec-title">Upload new document</div><div class="sec-meta">Replaces existing doc for all future sessions</div></div>
-          <div class="sec-body">
-            <div class="upload-zone" @click="$refs.pdfFile.click()">
-              <input type="file" ref="pdfFile" accept=".pdf" @change="uploadPDF(false)">
-              <div class="uz-icon">📄</div>
-              <div class="uz-label">Click to select a PDF</div>
-              <div class="uz-sub">Recommended: under 100 pages</div>
-            </div>
-            <div style="margin-top:10px;font-size:13px" :style="{color: upErr ? 'var(--red)' : 'var(--grn)'}">{{ upStatus }}</div>
-          </div>
-        </div>
-        <div class="sec">
-          <div class="sec-hdr"><div class="sec-title">Hot-reload (live update)</div><div class="sec-meta">Active sessions update immediately</div></div>
-          <div class="sec-body">
-            <p style="font-size:13px;color:var(--txt2);margin-bottom:14px;line-height:1.6">Use when an admin is currently stuck — push a fix without restarting the server.</p>
-            <div class="upload-zone" @click="$refs.hotFile.click()">
-              <input type="file" ref="hotFile" accept=".pdf" @change="uploadPDF(true)">
-              <div class="uz-label">Click to hot-reload PDF</div>
-              <div class="uz-sub">All active sessions update on next message</div>
-            </div>
-            <div style="margin-top:10px;font-size:13px" :style="{color: hotErr ? 'var(--red)' : 'var(--grn)'}">{{ hotStatus }}</div>
-          </div>
-        </div>
-      </div>
-
-    </div><!-- /main -->
-  </div><!-- /layout -->
 </div>
 
 <script>
 const { createApp, ref, computed, onMounted } = Vue;
 
 createApp({
-  setup() {
-<<<<<<< HEAD
-    const API = '/api';
-=======
-    const API = 'http://localhost:5000/api';
->>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
+setup() {
+const API = '';
 
-    const page        = ref('analytics');
-    const sessions    = ref([]);
-    const analytics   = ref({});
-    const escalations = ref([]);
-    const docMeta     = ref({});
-<<<<<<< HEAD
-    const uploadedFileName = ref('');
-    const liveSessions= ref([]);
-    const sessFilter  = ref('all');
-    const openSessions= ref(new Set());
-    const openLive = ref(new Set());
-    const noteInputs  = ref({});
-    const allSessionSearch = ref('');
-    const escalationSearch = ref('');
-=======
-<<<<<<< HEAD
-    const uploadedFileName = ref('');
-=======
-<<<<<<< HEAD
-    const uploadedFileName = ref('');
-=======
->>>>>>> ade5f99e7819942961f5d7b8460046a1e97dbf3d
->>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
-    const liveSessions= ref([]);
-    const sessFilter  = ref('all');
-    const openSessions= ref(new Set());
-    const noteInputs  = ref({});
-<<<<<<< HEAD
-    const allSessionSearch = ref('');
-    const escalationSearch = ref('');
-=======
+const page            = ref('analytics');
+const analytics       = ref({});
+const sessions        = ref([]);
+const liveSessions    = ref([]);
+const escalations     = ref([]);
+const escalationSessions = ref({});   // session_id → full session log for conversation view
+const docMeta         = ref({});
+const docStatus       = ref({ loaded: false });
+const search          = ref('');
+const escSearch       = ref('');
+const toastMsg        = ref('');
+const toastShow       = ref(false);
+const openSessions    = ref(new Set());
+const openLive        = ref(new Set());
+const openEsc         = ref(new Set());
+const openDocGaps    = ref(new Set());
+const sessionFilter   = ref('total');
 
->>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
->>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
-    const upStatus = ref(''); const upErr = ref(false);
-    const hotStatus= ref(''); const hotErr= ref(false);
+// ── Helpers ──────────────────────────────────────────────────
 
-    const toastMsg = ref(''); const toastShow = ref(false); const toastType = ref('');
+function showToast(msg) {
+  toastMsg.value  = msg;
+  toastShow.value = true;
+  setTimeout(() => { toastShow.value = false; }, 2500);
+}
 
-    function toast(msg, type='') {
-      toastMsg.value = msg; toastType.value = type; toastShow.value = true;
-      setTimeout(() => toastShow.value = false, 3000);
-    }
+function fmtDate(v) {
+  if (!v) return '—';
+  try { return new Date(v).toLocaleString(); } catch { return v; }
+}
 
-    function fmtDate(iso) {
-      if (!iso) return '—';
-      return new Date(iso).toLocaleString();
-    }
+function toggleSession(i) {
+  const s = new Set(openSessions.value);
+  s.has(i) ? s.delete(i) : s.add(i);
+  openSessions.value = s;
+}
 
-    function escH(s) {
-      if (!s) return '';
-      return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-    }
-
-    const maxIssueCount = computed(() => {
-      const t = analytics.value.top_issue_types;
-      if (!t || !t.length) return 1;
-      return Math.max(1, ...t.map(i => i.count));
-    });
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
-    const filteredEscalations = computed(() => {
-      let e = [...escalations.value];
-
-        if (escalationSearch.value.trim()) {
-           const search = escalationSearch.value.toLowerCase();
-
-            e = e.filter(x =>
-            x.session_id &&
-            x.session_id.toString().toLowerCase().includes(search)
-    );
-  }
-
-  return e.sort((a, b) => {
-    const timeA = new Date(a.escalated_at || 0).getTime();
-    const timeB = new Date(b.escalated_at || 0).getTime();
-    return timeB - timeA;
-  });
-});
-
-   const filteredSessions = computed(() => {
-  const f = sessFilter.value;
-
-  // clone array before sorting
-  let s = [...sessions.value];
-
-  // SEARCH FILTER
-  if (allSessionSearch.value.trim()) {
-    const search = allSessionSearch.value.toLowerCase();
-
-    s = s.filter(x =>
-      x.session_id &&
-      x.session_id.toString().toLowerCase().includes(search)
-    );
-  }
-
-  // STATUS FILTERS
-  if (f === 'resolved') {
-    s = s.filter(x => x.resolved);
-  } else if (f === 'unresolved') {
-    s = s.filter(x => !x.resolved);
-  } else if (f === 'escalated') {
-    s = s.filter(x => x.escalated);
-  } else if (f === 'fallback') {
-    s = s.filter(x => x.fallback_used);
-  } else if (f === 'gaps') {
-    s = s.filter(x => x.doc_gaps && x.doc_gaps.length);
-  }
-
-  // newest sessions first
-  return s.sort((a, b) => {
-    const timeA = new Date(a.started_at || a.updated_at || 0).getTime();
-    const timeB = new Date(b.started_at || b.updated_at || 0).getTime();
-    return timeB - timeA;
-  });
-});
-<<<<<<< HEAD
-=======
-=======
-
-    const filteredSessions = computed(() => {
-<<<<<<< HEAD
-    const f = sessFilter.value;
-
-    // clone array before sorting
-    let s = [...sessions.value];
-
-    // apply filters
-    if (f === 'resolved') {
-      s = s.filter(x => x.resolved);
-    } else if (f === 'unresolved') {
-      s = s.filter(x => !x.resolved);
-    } else if (f === 'escalated') {
-      s = s.filter(x => x.escalated);
-    } else if (f === 'fallback') {
-      s = s.filter(x => x.fallback_used);
-    } else if (f === 'gaps') {
-      s = s.filter(x => x.doc_gaps && x.doc_gaps.length);
-    }
-
-    // newest sessions first
-    return s.sort((a, b) => {
-      const timeA = new Date(a.started_at || a.updated_at || 0).getTime();
-      const timeB = new Date(b.started_at || b.updated_at || 0).getTime();
-      return timeB - timeA;
-    });
-
-=======
-      const f = sessFilter.value;
-      const s = sessions.value;
-      if (f === 'resolved')   return s.filter(x => x.resolved);
-      if (f === 'unresolved') return s.filter(x => !x.resolved);
-      if (f === 'escalated')  return s.filter(x => x.escalated);
-      if (f === 'fallback')   return s.filter(x => x.fallback_used);
-      if (f === 'gaps')       return s.filter(x => x.doc_gaps && x.doc_gaps.length);
-      return s;
->>>>>>> ade5f99e7819942961f5d7b8460046a1e97dbf3d
-    });
->>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
->>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
-
-    function toggleSession(i) {
-      const s = new Set(openSessions.value);
-      s.has(i) ? s.delete(i) : s.add(i);
-      openSessions.value = s;
-    }
-
-    async function loadAll() {
-      try {
-        const [sR, aR, eR, mR] = await Promise.all([
-<<<<<<< HEAD
-          fetch(`${API}/logs`,        { credentials: 'include' }),
-          fetch(`${API}/analytics`,   { credentials: 'include' }),
-          fetch(`${API}/escalations`, { credentials: 'include' }),
-          fetch(`${API}/doc/meta`,    { credentials: 'include' }),
-=======
-          fetch(`${API}/logs`), fetch(`${API}/analytics`),
-          fetch(`${API}/escalations`), fetch(`${API}/doc/meta`),
->>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
-        ]);
-        sessions.value    = await sR.json();
-        analytics.value   = await aR.json();
-        escalations.value = await eR.json();
-        docMeta.value     = await mR.json();
-      } catch(e) { console.error('Load failed', e); }
-    }
-
-    async function loadLive() {
-      try {
-<<<<<<< HEAD
-        const r = await fetch(`${API}/sessions/active`, { credentials: 'include' })
-=======
-        const r = await fetch(`${API}/sessions/active`);
->>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
-        liveSessions.value = await r.json();
-      } catch { liveSessions.value = []; }
-    }
-
-    async function injectNote(sid) {
-      const note = (noteInputs.value[sid] || '').trim();
-      if (!note) return;
-      try {
-        const r = await fetch(`${API}/session/inject-note`, {
-<<<<<<< HEAD
-          credentials: 'include',
-=======
->>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ session_id: sid, note }),
-        });
-        const d = await r.json();
-        noteInputs.value[sid] = '';
-        toast(d.status || 'Note injected', 'ok');
-      } catch { toast('Failed to inject note', 'err'); }
-    }
-<<<<<<< HEAD
-    async function logout() {
-      try {
-        await fetch(`${API}/auth/logout`, {
-        method: 'POST',
-        credentials: 'include'
-        });
-
-        // Redirect to login page
-        window.location.replace('/login');
-      } catch (e) {
-        toast('Logout failed', 'err');
-      }
-    }
-=======
-
->>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
-    async function uploadPDF(isHot) {
-      const fileRef = isHot ? 'hotFile' : 'pdfFile';
-      // Access via event since we use refs differently in Vue 3 options
-      const input = document.querySelector(isHot ? '[ref=hotFile]' : '[ref=pdfFile]') ||
-                    (isHot ? document.querySelectorAll('input[type=file]')[1] : document.querySelectorAll('input[type=file]')[0]);
-      if (!input || !input.files[0]) return;
-      const file = input.files[0];
-<<<<<<< HEAD
-      uploadedFileName.value = file.name;
-=======
-<<<<<<< HEAD
-      uploadedFileName.value = file.name;
-=======
-<<<<<<< HEAD
-      uploadedFileName.value = file.name;
-=======
->>>>>>> ade5f99e7819942961f5d7b8460046a1e97dbf3d
->>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
->>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
-
-      if (isHot) { hotStatus.value = 'Uploading…'; hotErr.value = false; }
-      else        { upStatus.value  = 'Uploading…'; upErr.value  = false; }
-
-      const form = new FormData();
-      form.append('file', file);
-      const endpoint = isHot ? `${API}/doc/hot-reload` : `${API}/upload-pdf`;
-      try {
-<<<<<<< HEAD
-        const r = await fetch(endpoint, { method: 'POST', body: form, credentials: 'include' });
-=======
-        const r = await fetch(endpoint, { method: 'POST', body: form });
->>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
-        const d = await r.json();
-        if (d.error) {
-          if (isHot) { hotErr.value = true; hotStatus.value = 'Error: ' + d.error; }
-          else        { upErr.value  = true; upStatus.value  = 'Error: ' + d.error; }
-        } else {
-          const msg = d.status + (d.meta ? ` — ${d.meta.page_count} pages` : '');
-          if (isHot) { hotStatus.value = msg; }
-          else        { upStatus.value  = msg; }
-          toast(isHot ? 'Doc hot-reloaded!' : 'Doc uploaded!', 'ok');
-          loadAll();
-        }
-      } catch {
-        if (isHot) { hotErr.value = true; hotStatus.value = 'Upload failed.'; }
-        else        { upErr.value  = true; upStatus.value  = 'Upload failed.'; }
-      }
-    }
-<<<<<<< HEAD
-   function toggleLive(i) {
+function toggleLive(i) {
   const s = new Set(openLive.value);
-
-  if (s.has(i)) {
-    s.delete(i);
-  } else {
-    s.add(i);
-  }
-
+  s.has(i) ? s.delete(i) : s.add(i);
   openLive.value = s;
 }
 
-async function injectLive(session) {
+function toggleEsc(i) {
+  const s = new Set(openEsc.value);
+  s.has(i) ? s.delete(i) : s.add(i);
+  openEsc.value = s;
+}
 
-  if (!session.injectText?.trim()) return;
+function toggleDocGap(i) {
+  const s = new Set(openDocGaps.value);
+  s.has(i) ? s.delete(i) : s.add(i);
+  openDocGaps.value = s;
+}
 
+// Bar color palette for issue analytics (index-based)
+function issueBarColor(idx) {
+  const palette = [
+    '#5AAF7A', '#4A8CE8', '#E8B84A', '#E84A4A',
+    '#A04AE8', '#4AE8D8', '#E8784A', '#8A8678',
+  ];
+  return palette[idx % palette.length];
+}
+
+// Bar width as % of max count
+function issueBarWidth(count) {
+  const items = analytics.value.issue_breakdown || [];
+  const max   = Math.max(...items.map(i => i.count), 1);
+  return Math.round((count / max) * 100);
+}
+
+// ── Data loaders ─────────────────────────────────────────────
+
+async function loadAnalytics() {
   try {
+    const r = await fetch(`${API}/api/analytics`);
+    analytics.value = await r.json();
+  } catch(e) { console.error(e); }
+}
 
-    const r = await fetch('/api/live-sessions/inject', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      credentials: 'include',
-      body: JSON.stringify({
-        session_id: session.session_id,
-        note: session.injectText
-      })
-    });
-
+async function loadSessions() {
+  try {
+    const r    = await fetch(`${API}/api/logs`);
     const data = await r.json();
-
-    if (!r.ok) {
-      throw new Error(data.error || 'Inject failed');
-    }
-
-    session.messages.push({
-      role: 'dev_note',
-      content: session.injectText
-    });
-
-    session.injectText = '';
-
-    toast('Developer note injected', 'ok');
-
-  } catch (e) {
-    toast(e.message, 'err');
+    // Already sorted descending by session_logger
+    sessions.value = Array.isArray(data) ? data : [];
+  } catch(e) {
+    console.error(e);
+    showToast('Failed loading sessions');
   }
 }
-   onMounted(() => {
 
-  loadAll();
-  loadLive();
+async function loadEscalations() {
+  try {
+    const r = await fetch(`${API}/api/escalations`);
+    escalations.value = await r.json();
 
-  setInterval(loadAll, 30000);
-
-  setInterval(() => {
-    if (page.value === 'live') {
-      loadLive();
+    // Also load full session logs for conversation view
+    const allSessions = await (await fetch(`${API}/api/logs`)).json();
+    const map = {};
+    for (const s of allSessions) {
+      map[s.session_id] = s;
     }
-  }, 3000);
+    escalationSessions.value = map;
 
-});
+  } catch(e) { console.error(e); }
+}
 
-    return {
-  page, sessions, analytics, escalations, docMeta,
-  liveSessions, sessFilter, openSessions, noteInputs,
-  upStatus, upErr, hotStatus, hotErr,
-  toastMsg, toastShow, toastType,
-  maxIssueCount, filteredSessions, filteredEscalations,
-  allSessionSearch, escalationSearch,
+async function loadLiveSessions() {
+  try {
+    const r = await fetch(`${API}/api/sessions/active`);
+    const data = await r.json();
 
-  toggleSession,
-  toggleLive,
+    if (!Array.isArray(data)) {
+      liveSessions.value = [];
+      return;
+    }
 
-  loadAll,
-  loadLive,
+    // Preserve existing inject text during refresh
+    const existingInputs = {};
 
-  injectNote,
-  injectLive,
-
-  uploadPDF,
-  logout,
-
-  fmtDate,
-  escH,
-
-  openLive,
-};
-=======
-
-    onMounted(() => {
-      loadAll();
-      setInterval(loadAll, 30000);
+    liveSessions.value.forEach(session => {
+      existingInputs[session.session_id] = session.injectText || '';
     });
 
-    return {
-      page, sessions, analytics, escalations, docMeta,
-      liveSessions, sessFilter, openSessions, noteInputs,
-      upStatus, upErr, hotStatus, hotErr,
-      toastMsg, toastShow, toastType,
-<<<<<<< HEAD
-      maxIssueCount,filteredSessions,filteredEscalations,
-      allSessionSearch,escalationSearch,
-      toggleSession, loadAll, loadLive, injectNote, uploadPDF,
-      fmtDate,escH,
-=======
-      maxIssueCount, filteredSessions,
-      toggleSession, loadAll, loadLive, injectNote, uploadPDF,
-      fmtDate, escH,
->>>>>>> f3b7ae5fecac63ffca7fa9edf6492b29df0dc51f
-    };
->>>>>>> f94f9fe4f45344dcb8a2c2f41ce3ea7014cabb3e
+    liveSessions.value = data.map(s => ({
+      ...s,
+      injectText: existingInputs[s.session_id] || ''
+    }));
+
+  } catch(e) {
+    console.error(e);
   }
+}
+
+async function loadDocMeta() {
+  try {
+    const r = await fetch(`${API}/api/doc/meta`);
+    docMeta.value = await r.json();
+  } catch(e) { console.error(e); }
+}
+
+async function loadDocStatus() {
+  try {
+    const r = await fetch(`${API}/api/doc/status`);
+    docStatus.value = await r.json();
+  } catch(e) { console.error(e); }
+}
+
+// ── Session filter tabs (computed) ────────────────────────────
+
+const sessionTabs = computed(() => {
+  const all = sessions.value;
+  return [
+    { key: 'total',     label: 'Total Sessions', count: all.length },
+    { key: 'resolved',  label: 'Resolved',       count: all.filter(s => s.resolved).length },
+    { key: 'unresolved',label: 'Unresolved',     count: all.filter(s => !s.resolved).length },
+    { key: 'fallback',  label: 'Fallback',       count: all.filter(s => s.fallback_used).length },
+    { key: 'gap',       label: 'Document Gap',   count: all.filter(s => s.doc_gaps && s.doc_gaps.length).length },
+    { key: 'escalated', label: 'Escalated',      count: all.filter(s => s.escalated).length },
+  ];
+});
+
+const filteredSessions = computed(() => {
+  let base = sessions.value;
+
+  // Apply tab filter
+  switch (sessionFilter.value) {
+    case 'resolved':   base = base.filter(s => s.resolved);  break;
+    case 'unresolved': base = base.filter(s => !s.resolved); break;
+    case 'fallback':   base = base.filter(s => s.fallback_used); break;
+    case 'gap':        base = base.filter(s => s.doc_gaps && s.doc_gaps.length); break;
+    case 'escalated':  base = base.filter(s => s.escalated); break;
+    // 'total' — no filter
+  }
+
+  // Apply search
+  const q = search.value.trim().toLowerCase();
+  if (q) {
+    base = base.filter(s =>
+      String(s.session_id || '').toLowerCase().includes(q) ||
+      String(s.problem_summary || '').toLowerCase().includes(q)
+    );
+  }
+
+  return base;
+});
+
+const docGapSessions = computed(() => {
+  return sessions.value.filter(
+    s => s.doc_gaps && s.doc_gaps.length
+  );
+});
+
+// ── Escalation search ─────────────────────────────────────────
+
+const filteredEscalations = computed(() => {
+  const q = escSearch.value.trim().toLowerCase();
+  if (!q) return escalations.value;
+  return escalations.value.filter(e =>
+    String(e.session_id || '').toLowerCase().includes(q) ||
+    String(e.problem_summary || '').toLowerCase().includes(q)
+  );
+});
+
+// ── PDF upload / hot reload ───────────────────────────────────
+
+async function uploadPDF(e) {
+  try {
+    const file = e.target.files[0];
+    if (!file) { showToast('Please select a PDF'); return; }
+
+    const form = new FormData();
+    form.append('file', file);
+
+    const r    = await fetch(`${API}/api/upload-pdf`, { method: 'POST', body: form });
+    const data = await r.json();
+
+    if (data.error) { showToast(data.error); return; }
+
+    showToast('PDF uploaded successfully');
+    await loadDocMeta();
+    await loadDocStatus();
+  } catch(e) {
+    console.error(e);
+    showToast('Upload failed');
+  }
+}
+
+async function hotReloadPDF(e) {
+  try {
+    const file = e.target.files[0];
+    if (!file) { showToast('Please select a PDF to hot reload'); return; }
+
+    const form = new FormData();
+    form.append('file', file);
+
+    const r    = await fetch(`${API}/api/doc/hot-reload`, { method: 'POST', body: form });
+    const data = await r.json();
+
+    if (data.error) { showToast(data.error); return; }
+
+    showToast('Documentation hot reloaded');
+    await loadDocMeta();
+    await loadDocStatus();
+    e.target.value = '';
+  } catch(e) {
+    console.error(e);
+    showToast('Hot reload failed');
+  }
+}
+
+// ── Inject note ───────────────────────────────────────────────
+
+async function injectNote(session) {
+  try {
+    if (!session.injectText || !session.injectText.trim()) return;
+
+    const r = await fetch(`${API}/api/session/inject-note`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ session_id: session.session_id, note: session.injectText }),
+    });
+    const data = await r.json();
+
+    if (data.error) { showToast(data.error); return; }
+
+    session.injectText = '';
+    await loadLiveSessions();
+    showToast('Developer note injected');
+  } catch(e) {
+    console.error(e);
+    showToast('Injection failed');
+  }
+}
+
+// ── Logout ────────────────────────────────────────────────────
+
+async function logout() {
+  try {
+    await fetch(`${API}/api/auth/logout`, { method: 'POST', credentials: 'include' });
+  } catch(e) { /* ignore */ }
+  window.location.href = '/';
+}
+
+// ── Mount ─────────────────────────────────────────────────────
+
+onMounted(async () => {
+  await loadAnalytics();
+  await loadSessions();
+  await loadEscalations();
+  await loadLiveSessions();
+  await loadDocMeta();
+  await loadDocStatus();
+
+  // Auto-refresh live sessions + analytics every 5s
+  setInterval(async () => {
+    await loadLiveSessions();
+    await loadAnalytics();
+  }, 5000);
+});
+
+return {
+  page,
+  analytics,
+  sessions,
+  liveSessions,
+  escalations,
+  escalationSessions,
+  filteredEscalations,
+  docMeta,
+  docStatus,
+  search,
+  escSearch,
+  sessionFilter,
+  sessionTabs,
+  filteredSessions,
+  openSessions,
+  openLive,
+  openEsc,
+  openDocGaps,
+  docGapSessions,
+  toggleDocGap,
+  fmtDate,
+  toggleSession,
+  toggleLive,
+  toggleEsc,
+  issueBarColor,
+  issueBarWidth,
+  loadSessions,
+  loadEscalations,
+  loadLiveSessions,
+  loadDocStatus,
+  loadAnalytics,
+  uploadPDF,
+  hotReloadPDF,
+  injectNote,
+  logout,
+  toastMsg,
+  toastShow,
+};
+}
 }).mount('#app');
 </script>
 </body>

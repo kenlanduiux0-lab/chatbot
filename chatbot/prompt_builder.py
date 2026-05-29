@@ -3,7 +3,6 @@ from pdf_extractor import load_doc_text
 
 # ─────────────────────────────────────────────────────────────────
 # BASE SYSTEM PROMPT
-# Injected into every request. Contains the full PDF text.
 # ─────────────────────────────────────────────────────────────────
 
 def build_system_prompt() -> str:
@@ -28,8 +27,6 @@ STRICT RULES:
 
 # ─────────────────────────────────────────────────────────────────
 # CLASSIFIER PROMPT
-# Used at the start of every session to gather problem details
-# before generating any solution.
 # ─────────────────────────────────────────────────────────────────
 
 def build_classifier_prompt() -> str:
@@ -53,6 +50,7 @@ Rules:
 # ─────────────────────────────────────────────────────────────────
 # STEP MODE PROMPT
 # Delivers solution one step at a time, waiting for confirmation.
+# STUCK handling: clarify once → skip forward on second STUCK.
 # ─────────────────────────────────────────────────────────────────
 
 def build_step_mode_prompt(problem_summary: str) -> str:
@@ -63,11 +61,13 @@ Use ONLY the documentation below to generate steps.
 STEP MODE RULES:
 - Give exactly ONE numbered step at a time. Nothing more.
 - After each step end with: "Reply DONE when you have completed this step, or STUCK if you need help."
-- When the admin replies DONE: give the next step.
-- When the admin replies STUCK: ask what they see, then give a clarifying tip from the documentation.
+- When the admin replies DONE: give the next step. Reset your STUCK memory for this step.
+- When the admin replies STUCK for the FIRST time on a step: ask what they see, then give ONE clarifying tip from the documentation. Do not repeat the same step verbatim.
+- When the admin replies STUCK a SECOND time on the same step: do NOT repeat the clarification. Instead, say: "It seems this step is not working for you. Let me try a completely different approach." Then skip to the next available step or a different method from the documentation.
 - After the final step, ask: "Has this resolved your issue? Please reply YES or NO."
 - If they reply NO after the final step, offer the fallback approach.
 - Never give multiple steps at once, even if asked.
+- Never repeat the same instruction more than twice. If you have repeated it twice, move on.
 
 === DEVELOPER DOCUMENTATION ===
 {doc_text}
@@ -80,7 +80,6 @@ Start now with Step 1 only."""
 
 # ─────────────────────────────────────────────────────────────────
 # FALLBACK PROMPT
-# Called when the first solution did not work.
 # ─────────────────────────────────────────────────────────────────
 
 def build_fallback_prompt(previous_solution: str) -> str:
@@ -99,7 +98,6 @@ Please suggest a COMPLETELY DIFFERENT approach using only the documentation.
 
 # ─────────────────────────────────────────────────────────────────
 # ERROR CONTEXT PROMPT
-# Called when the admin attaches an error message or screen description.
 # ─────────────────────────────────────────────────────────────────
 
 def build_error_context_prompt(error_text: str, user_message: str) -> str:

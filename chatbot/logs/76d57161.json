@@ -1,0 +1,40 @@
+{
+  "session_id": "76d57161",
+  "started_at": "2026-05-29T11:22:22.643483",
+  "ended_at": null,
+  "resolved": false,
+  "escalated": false,
+  "fallback_used": false,
+  "fallback_count": 0,
+  "issue_type": null,
+  "problem_summary": null,
+  "resolution_note": null,
+  "doc_gaps": [],
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Hello! I am here to help you fix a problem with your website.\n\nLet's start by understanding the issue.\n\nWhich part of the website is affected? For example: login page, images, forms, dashboard, menu, or something else?",
+      "timestamp": "2026-05-29T11:22:22.666467"
+    },
+    {
+      "role": "user",
+      "content": "menu",
+      "timestamp": "2026-05-29T11:23:02.915264"
+    },
+    {
+      "role": "assistant",
+      "content": "So the issue is with the menu on your website. That helps to narrow it down.\n\nWhen did this problem first appear? Was it after an update, has it always been there, or did it just start today?",
+      "timestamp": "2026-05-29T11:23:04.902091"
+    },
+    {
+      "role": "user",
+      "content": "menu looks cramped",
+      "timestamp": "2026-05-29T11:27:25.328378"
+    },
+    {
+      "role": "assistant",
+      "content": "The menu looks cramped, that's a good description.\n\nWhat exactly do you see on screen? Describe any error message, blank area, or unexpected behaviour, like the menu being cut off or overlapping with other elements.",
+      "timestamp": "2026-05-29T11:27:27.775235"
+    }
+  ]
+}
